@@ -8,27 +8,36 @@
     <title>Document</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        .weatherAndMusic {
+        .weatherAndMusicAndRanking {
             width: 600px;
             margin: 50px auto 0px auto;
             padding: 20px;
             background-color: pink;
             text-align: center;
-            border-radius: 10px; /* 폼 모서리를 둥글게 만듦 */
-            display: flex; /* 요소들을 수평으로 정렬 */
-            justify-content: space-between; /* 요소들의 간격을 최대한 활용하여 요소를 분산시킴 */
-            align-items: center; /* 요소들을 세로 중앙으로 정렬 */
-        } 
+            border-radius: 10px;
+            /* 폼 모서리를 둥글게 만듦 */
+        }
+
+        .weatherAndMusic {
+            display: flex;
+            /* 요소들을 수평으로 정렬 */
+            justify-content: space-between;
+            /* 요소들의 간격을 최대한 활용하여 요소를 분산시킴 */
+            align-items: center;
+            /* 요소들을 세로 중앙으로 정렬 */
+        }
 
         .weatherIcon {
             width: 50px;
             height: 50px;
         }
 
+
         .login {
             width: 500px;
             margin: 50px auto 0px auto;
-            padding: 20px; /* 폼 내부 여백 추가 */
+            padding: 20px;
+            /* 폼 내부 여백 추가 */
             border-radius: 10px;
             background-color: pink;
             text-align: center;
@@ -45,14 +54,18 @@
 
         .id-input {
             display: flex;
-            justify-content: center;  /* 가로 중앙 정렬 */
-            align-items: center; 
+            justify-content: center;
+            /* 가로 중앙 정렬 */
+            align-items: center;
         }
 
         .id-icon {
-            width: 24px; /* 이미지의 너비 조절 */
-            height: 24px; /* 이미지의 높이 조절 */
-            margin-right: 10px; /* 이미지와 텍스트 사이 간격 조절 */
+            width: 24px;
+            /* 이미지의 너비 조절 */
+            height: 24px;
+            /* 이미지의 높이 조절 */
+            margin-right: 10px;
+            /* 이미지와 텍스트 사이 간격 조절 */
         }
 
         input[type="email"],
@@ -84,12 +97,19 @@
 </head>
 
 <body>
-    <div class="weatherAndMusic">
-        <div class="weatherInfo">
-            <p>서울의 기온 : <sapn id="temperature"></sapn>도</p>
-            <img class="weatherIcon" id="weather" src="" alt="날씨 아이콘">
+    <div class="weatherAndMusicAndRanking">
+        <div class="weatherAndMusic">
+            <div class="weatherInfo">
+                <p>서울의 기온 : <sapn id="temperature"></sapn>도</p>
+                <img class="weatherIcon" id="weather" src="" alt="날씨 아이콘">
+            </div>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/4gXmClk8rKI" frameborder="0"
+                allowfullscreen></iframe>
         </div>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/4gXmClk8rKI" frameborder="0" allowfullscreen></iframe>
+        <div class="musicReasonAndRanking">
+            <p>날씨도 좋은데 눈과 귀가 즐거운 노래 들으시고 공부하러 가봐요 🔥</p>
+            <p>오늘의 랭킹 1등은 7Song사이다 🏆</p>
+        </div>
     </div>
 
     </div>
