@@ -1,9 +1,10 @@
 # smell_mini-project
 
-- 이나영 현재 진행 상황
- ![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/bb786431-c845-4889-8c01-6c2c004ba8e7)
+- 이나영
 
-- firestore database
-![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/78463ead-2897-4c6e-b955-679b4357c204)
+![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6a60e6fc-9d14-4a49-94e1-b49ec0192ab1)
 
- -> API key는 현재 '이나영 API key로 되어있음' 
+- LoginPage.html 에 해당 부분에
+window.location.href = "MyPage.html"; // 로그인 성공 페이지의 경로로 변경
+
+해당 코드 추가하면 로그인 성공 시에만 Mypage로 이동하는 것 확인 했습니다.
