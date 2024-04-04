@@ -7,6 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        .weatherAndMusic {
+            width: 500px;
+            margin: 50px auto 0px auto;
+            padding: 20px;
+            background-color: pink;
+            text-align: center;
+        }
+
+        .login {
+            width: 500px;
+            margin: 50px auto 0px auto;
+            padding: 20px;
+            /* 로그인 폼 내부 여백 추가 */
+            border-radius: 10px;
+            /* 로그인 폼 모서리를 둥글게 만듦 */
+            background-color: pink;
+            text-align: center;
+        }
+
         .logo {
             width: 500px;
             height: 200px;
@@ -34,17 +53,6 @@
             /* 이미지와 텍스트 사이 간격 조절 */
         }
 
-        .login {
-            width: 500px;
-            margin: 50px auto 0px auto;
-            padding: 20px;
-            /* 로그인 폼 내부 여백 추가 */
-            border-radius: 10px;
-            /* 로그인 폼 모서리를 둥글게 만듦 */
-            background-color: pink;
-            text-align: center;
-        }
-
         input[type="email"],
         input[type="password"] {
             width: 80%;
@@ -56,6 +64,9 @@
 </head>
 
 <body>
+    <div class="weatherAndMusic">
+
+    </div>
     <div class="login">
         <!-- 로고 넣는 부분 -->
         <div class="logo">
@@ -78,7 +89,7 @@
             <button>로그인하기</button>
         </p>
         <p>
-            <button>회원가입하기</button>
+            <button type="button" onclick="locaiton.href='SignUpPage.html'">회원가입하기</button>
         </p>
     </div>
 </body>
