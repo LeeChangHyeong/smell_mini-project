@@ -71,7 +71,6 @@
         body {
             background-color: white;
         }
-
         .id-icon {
             width: 50px;
             /* 이미지의 너비 조절 */
@@ -81,16 +80,25 @@
             /* 이미지와 텍스트 사이 간격 조절 */
         }
 
-        /* 이미지와 텍스트를 가로로 정렬 */
         .form-group {
             display: flex;
+            /* justify-content: center; */
+            /* 가로 중앙 정렬 */
             align-items: center;
         }
 
-        /* 이미지와 텍스트 사이 간격 조절 */
-        .form-group .id-icon {
-            margin-right: 20px;
+        input[type="email"],
+        input[type="password"] {
+            width: 210%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
         }
+
+      
+
+        /* 이미지와 텍스트를 가로로 정렬 */
+        
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -215,34 +223,35 @@
     </div>
     <div class="signupbox" id="signupbox">
         <!-- 사용자 이름을 입력하는 폼 -->
-        <div class="form-floating mb-3">
-            <div class="form-group">
-                <img class="id-icon"
-                    src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6180769d-e49d-42f6-bca0-3febffee69db"
-                    alt="아이콘">
+        <div class="form-group">
+            <img class="id-icon"
+                 src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6180769d-e49d-42f6-bca0-3febffee69db
+                 "
+                 alt="아이콘">
+            <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="name" placeholder="name">
+                <label for="name">name</label>
             </div>
-            <label for="floatingInput">name</label>
         </div>
         <!-- 이메일을 입력하는 폼 -->
-        <div class="form-floating mb-3">
-            <div class="form-group">
-                <img class="id-icon"
-                    src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/17e99f54-89ea-493d-88c7-2290cf473071"
-                    alt="아이콘">
-                <input type="email" class="form-control" id="email" placeholder="e-mail">
+        <div class="form-group">
+            <img class="id-icon"
+                 src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/17e99f54-89ea-493d-88c7-2290cf473071"
+                 alt="아이콘">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" placeholder="email">
+                <label for="email">email</label>
             </div>
-            <label for="floatingInput">e-mail</label>
         </div>
         <!-- 비밀번호를 입력하는 폼 -->
-        <div class="form-floating mb-3">
-            <div class="form-group">
-                <img class="id-icon"
-                    src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6553407e-aa39-45fa-88e8-5d3a638aad4c"
-                    alt="아이콘">
-                <input type="password" class="form-control" id="password" placeholder="password">
+        <div class="form-group">
+            <img class="id-icon"
+                 src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6553407e-aa39-45fa-88e8-5d3a638aad4c"
+                 alt="아이콘">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="password" placeholder="password">
+                <label for="password">password</label>
             </div>
-            <label for="floatingInput">password</label>
         </div>
         <div class="signup_btn">
             <button id="signbtn" type="button" class="btn btn-danger">Sign-up</button>
