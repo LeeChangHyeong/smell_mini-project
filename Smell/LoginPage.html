@@ -9,12 +9,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .weatherAndMusic {
-            width: 500px;
+            width: 600px;
             margin: 50px auto 0px auto;
             padding: 20px;
             background-color: pink;
             text-align: center;
             border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .weatherIcon {
@@ -67,6 +70,11 @@
             margin: 10px 0;
             box-sizing: border-box;
         }
+
+        iframe {
+            width: 450px;
+            height: 300px;
+        }
     </style>
     <script type="module">
         $(document).ready(function () {
@@ -89,6 +97,7 @@
             <p>서울의 기온 : <sapn id="temperature"></sapn>도</p>
             <img class="weatherIcon" id="weather" src="" alt="날씨 아이콘">
         </div>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/4gXmClk8rKI" frameborder="0" allowfullscreen></iframe>
     </div>
     <div class="login">
         <div class="logo">
