@@ -82,6 +82,25 @@
         }
     </style>
     <script type="module">
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+        // Firebase 구성 정보 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyB-eyQJ5vsYV1VPXbhXvUu0Bm5Do0AfGmY",
+            authDomain: "smell-19e9a.firebaseapp.com",
+            projectId: "smell-19e9a",
+            storageBucket: "smell-19e9a.appspot.com",
+            messagingSenderId: "321477657279",
+            appId: "1:321477657279:web:48bec02f302e4b7bfb7c0a",
+            measurementId: "G-78FKFTNFZ4"
+        };
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
         $(document).ready(function () {
             let url = "http://spartacodingclub.shop/sparta_api/weather/seoul";  // 서울 날씨 API 요청을 위한 URL 
             // 해당 URL로 GET 요청을 보내고, 받은 응답을 JSON 형식으로 변환
@@ -91,8 +110,26 @@
                 let weather = data['icon']
                 $('#temperature').text(temp);  // 온도 정보를 해당 요소에 텍스트로 추가
                 $('#weather').attr('src', weather); // 날씨 아이콘 이미지 URL을 이미지 요소의 src 속성에 설정
-            })
-        })
+            });
+
+            // 로그인 버튼 클릭 시 처리
+            $("#loginButton").click(async function () {
+                let email = $('input[name="email"]').val(); // 이메일 값 가져오기
+                let password = $('input[name="password"]').val(); // 비밀번호 값 가져오기
+
+                try {
+                    // Firebase에 이메일과 비밀번호로 로그인 요청
+                    await signInWithEmailAndPassword(auth, email, password);
+                    // 로그인 성공 알림
+                    alert('로그인에 성공했습니다!');
+                } catch (error) {
+                    // 로그인 실패 알림
+                    alert('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
+                    console.error(error);
+                }
+            });
+        });
+
     </script>
 </head>
 
@@ -132,7 +169,7 @@
             <input type="password" name="password" placeholder="Password" />
         </p>
         <p>
-            <button>로그인하기</button>
+            <button id="loginButton">로그인하기</button>
         </p>
         <p>
             <button onclick="location.href='SignUpPage.html'">회원가입하기</button>
