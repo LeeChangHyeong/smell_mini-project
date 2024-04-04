@@ -71,6 +71,26 @@
         body {
             background-color: white;
         }
+
+        .id-icon {
+            width: 50px;
+            /* 이미지의 너비 조절 */
+            height: 50px;
+            /* 이미지의 높이 조절 */
+            margin-right: 20px;
+            /* 이미지와 텍스트 사이 간격 조절 */
+        }
+
+        /* 이미지와 텍스트를 가로로 정렬 */
+        .form-group {
+            display: flex;
+            align-items: center;
+        }
+
+        /* 이미지와 텍스트 사이 간격 조절 */
+        .form-group .id-icon {
+            margin-right: 20px;
+        }
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -111,7 +131,8 @@
             // 입력된 사용자 이름, 이메일, 비밀번호를 가져옴
             let name = $('#name').val();
             let email = $('#email').val();
-            let password = $('#password').val();
+            let password =
+                $('#password').val();
 
             try {
                 // Firebase Authentication을 사용하여 사용자 생성
@@ -130,7 +151,6 @@
                 alert(errorMessage);
             }
         });
-    
 
         // 로그인 버튼 클릭 이벤트 핸들러
         $("#loginbtn").click(function () {
@@ -172,7 +192,7 @@
                     <li><a href="#" class="nav-link px-2 text-danger">smell</a></li>
                     <li><a href="#" class="nav-link px-2 text-secondary">study</a></li>
                     <li><a href="#" class="nav-link px-2 text-secondary">mypage</a></li>
-                    <li><a href="#" class="nav-link px-2 text-secondary">서울의 기온 : <sapn id="temperature">20.00</sapn>도
+                    <li><a href="#" class="nav-link px-2 text-secondary">서울의 기온 : <span id="temperature">20.00</span>도
                             <span id="temperature"></span></a></li>
                 </ul>
                 <!-- 검색 폼 -->
@@ -196,17 +216,32 @@
     <div class="signupbox" id="signupbox">
         <!-- 사용자 이름을 입력하는 폼 -->
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="name" placeholder="name">
+            <div class="form-group">
+                <img class="id-icon"
+                    src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6180769d-e49d-42f6-bca0-3febffee69db"
+                    alt="아이콘">
+                <input type="email" class="form-control" id="name" placeholder="name">
+            </div>
             <label for="floatingInput">name</label>
         </div>
         <!-- 이메일을 입력하는 폼 -->
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="email" placeholder="e-mail">
+            <div class="form-group">
+                <img class="id-icon"
+                    src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/17e99f54-89ea-493d-88c7-2290cf473071"
+                    alt="아이콘">
+                <input type="email" class="form-control" id="email" placeholder="e-mail">
+            </div>
             <label for="floatingInput">e-mail</label>
         </div>
         <!-- 비밀번호를 입력하는 폼 -->
         <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="password" placeholder="password">
+            <div class="form-group">
+                <img class="id-icon"
+                    src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6553407e-aa39-45fa-88e8-5d3a638aad4c"
+                    alt="아이콘">
+                <input type="password" class="form-control" id="password" placeholder="password">
+            </div>
             <label for="floatingInput">password</label>
         </div>
         <div class="signup_btn">
