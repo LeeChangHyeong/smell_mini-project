@@ -130,6 +130,12 @@
                 alert(errorMessage);
             }
         });
+    
+
+        // 로그인 버튼 클릭 이벤트 핸들러
+        $("#loginbtn").click(function () {
+            window.location.href = "LoginPage.html"; // 로그인 페이지의 파일명으로 변경해야 합니다.
+        });
         // Firestore에서 데이터 가져오기
         async function fetchDataFromFirestore() {
             let docs = await getDocs(collection(db, "sign_up"));
@@ -176,7 +182,7 @@
                 </form>
                 <!-- 로그인 버튼 -->
                 <div class="text-end">
-                    <button type="button" class="btn btn-outline-secondary">Login</button>
+                    <button id="loginbtn" type="button" class="btn btn-outline-secondary">Login</button>
                 </div>
             </div>
         </div>
