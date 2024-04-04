@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyPage</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        .container {
+            height: 80px;
+            margin: 20px auto 0px auto;
+        }
+
+        .timer {
+            /*타이머 텍스트 가운데 정렬*/
+            text-align: center;
+        }
+
+        .styledButton {
+            border-radius: 10px;
+            background-color: gold;
+        }
+
+        .styledButton2 {
+            border-radius: 10px;
+            background-color: gold;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script type="module">
+        //API에서 현재 서울의 기온을 가져와 출력
+        $(document).ready(function () {
+            let url = "http://spartacodingclub.shop/sparta_api/weather/seoul";//API를 받아 오기 위한 URL
+            fetch(url).then(res => res.json()).then(data => {
+                let temp = data['temp']; //온도 정보 저장
+                $('#msg').text(temp); //온도 정보를 해당 ID에 텍스트로 출력
+            })
+        })
+
+        //타이머설정 부분
+        let startTime;
+        let totalTime = 0;
+        let timerInterval;
+
+        document.getElementById("startButton").addEventListener("click", startTimer);
+        document.getElementById("stopButton").addEventListener("click", stopTimer);
+
+        function startTimer() {
+            startTime = Date.now() - totalTime;
+            timerInterval = setInterval(updateTime, 1000);
+            console.log("Timer started!"); // 타이머가 시작되었음을 콘솔에 출력
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            console.log("Timer stopped!"); // 타이머가 종료되었음을 콘솔에 출력
+        }
+
+        function updateTime() {
+            const elapsedTime = Date.now() - startTime;
+            totalTime = elapsedTime;
+            const formattedTime = formatTime(elapsedTime);
+            document.getElementById("totalTime").textContent = formattedTime;
+        }
+
+        function formatTime(milliseconds) {
+            const hours = Math.floor(milliseconds / (1000 * 60 * 60));
+            const minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
+
+            const formattedHours = String(hours).padStart(2, "0");
+            const formattedMinutes = String(minutes).padStart(2, "0");
+            const formattedSeconds = String(seconds).padStart(2, "0");
+
+            return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="#" class="nav-link px-2 text-">스멜</a></li>
+                    <li><a href="#" class="nav-link px-2 text-dark">날씨: <span id="msg"></span></a></li>
+                    <li><a href="#" class="nav-link px-2 text-dark">음악:</a></li>
+                    <li><a href="#" class="nav-link px-2 text-dark">"사용자 이름"</a></li>
+                    <li><a href="#" class="nav-link px-2 text-dark">공부시간:</a></li>
+                    <li><a href="#" class="nav-link px-2 text-dark">내 랭킹:</a></li>
+                </ul>
+
+                <div class="text-end">
+                    <button type="button" class="btn btn-warning">스터디 모집</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="timer">
+        <h1>Study Timer</h1>
+        <!--타이머 출력-->
+        <h1><span id="totalTime">00:00:00</span></h1>
+        <!--타이머 시작-->
+        <button id="startButton" class="styledButton">Start Studying</button>
+        <!--타이머 종료-->
+        <button id="stopButton" class="styledButton2">Stop Studying</button>
+    </div>
+</body>
+
+</html>
