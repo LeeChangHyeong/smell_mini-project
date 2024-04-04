@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .weatherAndMusic {
             width: 500px;
@@ -15,13 +16,16 @@
             text-align: center;
         }
 
+        .weatherIcon {
+            width: 50px;
+            height: 50px;
+        }
+
         .login {
             width: 500px;
             margin: 50px auto 0px auto;
-            padding: 20px;
-            /* 로그인 폼 내부 여백 추가 */
-            border-radius: 10px;
-            /* 로그인 폼 모서리를 둥글게 만듦 */
+            padding: 20px; /* 로그인 폼 내부 여백 추가 */
+            border-radius: 10px; /* 로그인 폼 모서리를 둥글게 만듦 */
             background-color: pink;
             text-align: center;
         }
@@ -36,21 +40,15 @@
         }
 
         .id-input {
-            display: flex;
-            /* 요소들을 수평으로 정렬 */
-            justify-content: center;
-            /* 가로 중앙 정렬 */
-            align-items: center;
-            /* 요소들을 세로 중앙으로 정렬 */
+            display: flex;  /* 요소들을 수평으로 정렬 */
+            justify-content: center; /* 가로 중앙 정렬 */
+            align-items: center; /* 요소들을 세로 중앙으로 정렬 */
         }
 
         .id-icon {
-            width: 24px;
-            /* 이미지의 너비 조절 */
-            height: 24px;
-            /* 이미지의 높이 조절 */
-            margin-right: 10px;
-            /* 이미지와 텍스트 사이 간격 조절 */
+            width: 24px; /* 이미지의 너비 조절 */
+            height: 24px; /* 이미지의 높이 조절 */
+            margin-right: 10px; /* 이미지와 텍스트 사이 간격 조절 */
         }
 
         input[type="email"],
@@ -61,25 +59,36 @@
             box-sizing: border-box;
         }
     </style>
+    <script type="module">
+        $(document).ready(function(){
+            let url = "http://spartacodingclub.shop/sparta_api/weather/seoul";  // 서울 날씨 API 요청을 위한 URL 
+            // 해당 URL로 GET 요청을 보내고, 받은 응답을 JSON 형식으로 변환
+            fetch(url).then(res=>res.json()).then(data => {
+                console.log(data);
+                let temp = data['temp']; // 응답에서 온도 정보 추출
+                let weather = data['icon']
+                $('#temperature').text(temp);  // 온도 정보를 해당 요소에 텍스트로 추가
+                $('#weather').attr('src', weather); // 날씨 아이콘 이미지 URL을 이미지 요소의 src 속성에 설정
+             })
+        })
+    </script>
 </head>
 
 <body>
     <div class="weatherAndMusic">
-
+        <p>서울의 기온 : <sapn id="temperature"></sapn>도</p>
+        <img class="weatherIcon" id="weather" src="" alt="날씨 아이콘">
     </div>
     <div class="login">
-        <!-- 로고 넣는 부분 -->
-        <div class="logo">
+        <div class="logo"> <!-- 로고 넣는 부분 -->
         </div>
-        <!-- ID 입력란 -->
-        <p class="id-input">
+        <p class="id-input"> <!-- ID 입력란 -->
             <img class="id-icon"
                 src="https://saegchil.co.kr/wp-content/uploads/2023/04/gwiyeoun-kaeligteo-siteu-46-saegchil.jpg"
                 alt="아이콘">
             <input type="email" name="email" placeholder="Email Address" />
         </p>
-        <!-- PW 입력란 -->
-        <p class="id-input">
+        <p class="id-input"> <!-- PW 입력란 -->
             <img class="id-icon"
                 src="https://saegchil.co.kr/wp-content/uploads/2023/04/gwiyeoun-kaeligteo-siteu-46-saegchil.jpg"
                 alt="아이콘">
