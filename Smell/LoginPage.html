@@ -13,7 +13,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .weatherAndMusicAndRanking {
-            width: 600px;
+            width: 700px;
             margin: 50px auto 0px auto;
             padding: 20px;
             background-color: pink;
@@ -86,8 +86,14 @@
             margin: 10px 0;
             box-sizing: border-box;
         }
-        
-        @supports (-webkit-appearance:none) and (stroke-color:transparent) { input[type="email"], input[type="password"] { width: 100%; } }
+
+        @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+
+            input[type="email"],
+            input[type="password"] {
+                width: 100%;
+            }
+        }
 
         iframe {
             width: 450px;
@@ -127,20 +133,22 @@
 
             // 로그인 버튼 클릭 시 처리
             $("#loginButton").click(async function () {
-                let email = $('input[name="email"]').val(); // 이메일 값 가져오기
-                let password = $('input[name="password"]').val(); // 비밀번호 값 가져오기
+                let email = $('#email').val(); // 이메일 값 가져오기
+                let password = $('#password').val(); // 비밀번호 값 가져오기
 
                 try {
                     // Firebase에 이메일과 비밀번호로 로그인 요청
                     await signInWithEmailAndPassword(auth, email, password);
                     // 로그인 성공 알림
                     alert('로그인에 성공했습니다!');
+                    window.location.href = "MyPage.html"; // 로그인 성공 페이지의 경로로 변경
                 } catch (error) {
                     // 로그인 실패 알림
                     alert('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
                     console.error(error);
                 }
             });
+
         });
 
     </script>
@@ -170,8 +178,8 @@
         <!-- 이메일을 입력하는 폼 -->
         <div class="form-group">
             <img class="id-icon"
-                 src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/17e99f54-89ea-493d-88c7-2290cf473071"
-                 alt="아이콘">
+                src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/17e99f54-89ea-493d-88c7-2290cf473071"
+                alt="아이콘">
             <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="email" placeholder="email">
                 <label for="email">email</label>
@@ -180,13 +188,14 @@
         <!-- 비밀번호를 입력하는 폼 -->
         <div class="form-group">
             <img class="id-icon"
-                 src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6553407e-aa39-45fa-88e8-5d3a638aad4c"
-                 alt="아이콘">
+                src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6553407e-aa39-45fa-88e8-5d3a638aad4c"
+                alt="아이콘">
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="password" placeholder="password">
+                <input type="password" class="form-control" id="password" placeholder="password">
                 <label for="password">password</label>
             </div>
         </div>
+
         <p>
             <button id="loginButton">로그인하기</button>
         </p>
