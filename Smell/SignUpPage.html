@@ -71,6 +71,7 @@
         body {
             background-color: white;
         }
+
         .id-icon {
             width: 50px;
             /* 이미지의 너비 조절 */
@@ -94,17 +95,18 @@
             margin: 10px 0;
             box-sizing: border-box;
         }
+
         /*사파리에서만 크기 적용*/
         @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+
             input[type="email"],
             input[type="password"] {
                 width: 100%;
             }
         }
-      
+
 
         /* 이미지와 텍스트를 가로로 정렬 */
-        
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -185,6 +187,21 @@
         $(document).ready(function () {
             fetchDataFromFirestore();
         });
+        $(document).ready(function () {
+            // mypage, sutdy 상단바 클릭 이벤트 핸들러
+            $("a[href='#']").click(function (e) {
+                e.preventDefault(); // 기본 동작 취소
+
+                let isLoggedIn = false; // 사용자가 로그인되어 있는지 여부
+
+                if (isLoggedIn) {
+                    // 사용자가 로그인되어 있다면 해당 링크로 이동
+                    window.location.href = $(this).attr('href');
+                } else {
+                    alert("로그인이 필요합니다");
+                }
+            });
+        });
 
     </script>
 </head>
@@ -205,9 +222,11 @@
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li><a href="LoginPage.html" class="nav-link px-2 text-secondary">LogIn</a></li>
                     <li><a href="#" class="nav-link px-2 text-danger">SignUp</a></li>
-                    <li><a href="MyPage.html" class="nav-link px-2 text-secondary">mypage</a></li>
-                    <li><a href="WritingPage.html" class="nav-link px-2 text-secondary">study</a></li>
-                    <li><a href="#" class="nav-link px-2 text-secondary">서울의 기온 : <span id="temperature">20.00</span>도
+                    <li><a href="#" class="nav-link px-2 text-secondary">mypage</a></li>
+
+                    <li><a href="#" class="nav-link px-2 text-secondary">study</a></li>
+                    <li><a href="SignUpPage.html" class="nav-link px-2 text-secondary">서울의 기온 : <span
+                                id="temperature">20.00</span>도
                             <span id="temperature"></span></a></li>
                 </ul>
                 <!-- 검색 폼 -->
@@ -231,10 +250,8 @@
     <div class="signupbox" id="signupbox">
         <!-- 사용자 이름을 입력하는 폼 -->
         <div class="form-group">
-            <img class="id-icon"
-                 src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6180769d-e49d-42f6-bca0-3febffee69db
-                 "
-                 alt="아이콘">
+            <img class="id-icon" src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6180769d-e49d-42f6-bca0-3febffee69db
+                 " alt="아이콘">
             <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="name" placeholder="name">
                 <label for="name">name</label>
@@ -243,8 +260,8 @@
         <!-- 이메일을 입력하는 폼 -->
         <div class="form-group">
             <img class="id-icon"
-                 src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/17e99f54-89ea-493d-88c7-2290cf473071"
-                 alt="아이콘">
+                src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/17e99f54-89ea-493d-88c7-2290cf473071"
+                alt="아이콘">
             <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="email" placeholder="email">
                 <label for="email">email</label>
@@ -253,8 +270,8 @@
         <!-- 비밀번호를 입력하는 폼 -->
         <div class="form-group">
             <img class="id-icon"
-                 src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6553407e-aa39-45fa-88e8-5d3a638aad4c"
-                 alt="아이콘">
+                src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6553407e-aa39-45fa-88e8-5d3a638aad4c"
+                alt="아이콘">
             <div class="form-floating mb-3">
                 <input type="password" class="form-control" id="password" placeholder="password">
                 <label for="password">password</label>
