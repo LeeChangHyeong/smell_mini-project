@@ -114,6 +114,25 @@
         }
     </style>
     <script type="module">
+                // 문서 로드 시 Firestore에서 데이터 가져오기
+                $(document).ready(function () {
+            fetchDataFromFirestore();
+        });
+        $(document).ready(function () {
+            // mypage, sutdy 상단바 클릭 이벤트 핸들러
+            $("a[href='#']").click(function (e) {
+                e.preventDefault(); // 기본 동작 취소
+
+                let isLoggedIn = false; // 사용자가 로그인되어 있는지 여부
+
+                if (isLoggedIn) {
+                    // 사용자가 로그인되어 있다면 해당 링크로 이동
+                    window.location.href = $(this).attr('href');
+                } else {
+                    alert("로그인이 필요합니다");
+                }
+            });
+        });
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
@@ -181,20 +200,11 @@
                 </a>
                 <!-- 메뉴 목록 -->
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="#" class="nav-link px-2 text-secondary">LogIn</a></li>
+                    <li><a href="LoginPage.html" class="nav-link px-2 text-secondary">LogIn</a></li>
                     <li><a href="SignUpPage.html" class="nav-link px-2 text-danger">SignUp</a></li>
-                    <li><a href="MyPage.html" class="nav-link px-2 text-secondary">mypage</a></li>
-                    <li><a href="WritingPage.html" class="nav-link px-2 text-secondary">study</a></li>
+                    <li><a href="#" class="nav-link px-2 text-secondary">mypage</a></li>
+                    <li><a href="#" class="nav-link px-2 text-secondary">study</a></li>
                 </ul>
-                <!-- 검색 폼 -->
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                    <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..."
-                        aria-label="Search">
-                </form>
-                <!-- 로그인 버튼 -->
-                <div class="text-end">
-                    <button id="loginbtn" type="button" class="btn btn-outline-secondary">Login</button>
-                </div>
             </div>
         </div>
     </header>
