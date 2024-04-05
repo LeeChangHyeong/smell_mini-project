@@ -12,6 +12,12 @@
     <!-- 부트스트랩 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+         /*폰트*/
+         @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+
+* {
+    font-family: "Gowun Dodum", sans-serif;
+}
         .weatherAndMusicAndRanking {
             width: 700px;
             margin: 50px auto 0px auto;
@@ -162,6 +168,37 @@
 </head>
 
 <body>
+    <header class="p-3 text-bg-dark">
+        <!-- 컨테이너를 포함하는 div 요소로 헤더를 감싸줌 -->
+        <div class="container">
+            <!-- flexbox를 사용하여 요소들을 가로로 정렬 -->
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <!-- 로고 링크, 홈으로 이동하는 링크로 설정-->
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+                <!-- 메뉴 목록 -->
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="#" class="nav-link px-2 text-secondary">LogIn</a></li>
+                    <li><a href="SignUpPage.html" class="nav-link px-2 text-danger">SignUp</a></li>
+                    <li><a href="MyPage.html" class="nav-link px-2 text-secondary">mypage</a></li>
+                    <li><a href="WritingPage.html" class="nav-link px-2 text-secondary">study</a></li>
+                </ul>
+                <!-- 검색 폼 -->
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                    <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..."
+                        aria-label="Search">
+                </form>
+                <!-- 로그인 버튼 -->
+                <div class="text-end">
+                    <button id="loginbtn" type="button" class="btn btn-outline-secondary">Login</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
     <div class="weatherAndMusicAndRanking">
         <div class="weatherAndMusic">
             <div class="weatherInfo">
@@ -204,10 +241,10 @@
         </div>
 
         <p>
-            <button id="loginButton" type="button" class="btn btn-outline-danger">로그인</button>
+            <button id="loginButton" type="button" class="btn btn-outline-warning">로그인</button>
         </p>
         <p>
-            <button onclick="location.href='SignUpPage.html'" type="button" class="btn btn-outline-warning">회원가입</button>
+            <button onclick="location.href='SignUpPage.html'" type="button" class="btn btn-outline-danger">회원가입</button>
         </p>
     </div>
 </body>
