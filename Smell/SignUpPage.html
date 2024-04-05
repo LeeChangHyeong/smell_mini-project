@@ -94,8 +94,14 @@
             margin: 10px 0;
             box-sizing: border-box;
         }
-
-        @supports (-webkit-appearance:none) and (stroke-color:transparent) { input[type="email"], input[type="password"] { width: 100%; } }
+        /*사파리에서만 크기 적용*/
+        @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+            input[type="email"],
+            input[type="password"] {
+                width: 100%;
+            }
+        }
+      
 
         /* 이미지와 텍스트를 가로로 정렬 */
         
@@ -197,9 +203,10 @@
                 </a>
                 <!-- 메뉴 목록 -->
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="#" class="nav-link px-2 text-danger">smell</a></li>
-                    <li><a href="#" class="nav-link px-2 text-secondary">study</a></li>
-                    <li><a href="#" class="nav-link px-2 text-secondary">mypage</a></li>
+                    <li><a href="LoginPage.html" class="nav-link px-2 text-secondary">LogIn</a></li>
+                    <li><a href="#" class="nav-link px-2 text-danger">SignUp</a></li>
+                    <li><a href="MyPage.html" class="nav-link px-2 text-secondary">mypage</a></li>
+                    <li><a href="WritingPage.html" class="nav-link px-2 text-secondary">study</a></li>
                     <li><a href="#" class="nav-link px-2 text-secondary">서울의 기온 : <span id="temperature">20.00</span>도
                             <span id="temperature"></span></a></li>
                 </ul>
@@ -249,7 +256,7 @@
                  src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6553407e-aa39-45fa-88e8-5d3a638aad4c"
                  alt="아이콘">
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="password" placeholder="password">
+                <input type="email" class="form-control" id="password" placeholder="password">
                 <label for="password">password</label>
             </div>
         </div>
