@@ -139,13 +139,11 @@
 
 
 
-        // 로그인 버튼 클릭 이벤트 핸들러
         $(document).ready(function () {
             // 로그아웃 버튼 클릭 이벤트 핸들러
             $("#logoutbtn").click(function () {
                 // Firebase에서 로그아웃
                 auth.signOut().then(() => {
-                    alert("로그아웃 되었습니다.");
                     // 로그아웃 성공한 경우, 페이지를 로그인 페이지로 이동
                     window.location.href = "LoginPage.html"; // LoginPage.html은 실제 로그인 페이지 파일명에 맞게 변경해야 합니다.
                 }).catch((error) => {
@@ -184,14 +182,10 @@
                                 id="temperature">20.00</span>도
                             <span id="temperature"></span></a></li>
                 </ul>
-                <!-- 검색 폼 -->
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                    <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..."
-                        aria-label="Search">
-                </form>
-                <!-- 로그인 버튼 -->
-                <div class="text-end">
-                    <button id="loginbtn" type="button" class="btn btn-outline-secondary">Login</button>
+                
+                 <!-- 로그아웃 버튼 -->
+                 <div class="text-end">
+                    <button id="logoutbtn" type="button" class="btn btn-outline-secondary">Logout</button>
                 </div>
             </div>
         </div>
@@ -213,8 +207,8 @@
             <div class="container d-flex justify-content-center">
                 <div class="board">
                     <div class="board-item">
-                        <h4>1</h4>
-                        <p>첫 번째 게시글 내용</p>
+                        <h4>코딩테스트 스터디 모집</h4>
+                        <p>18:00 ~ 스터디 모집합니다.</p>
                     </div>
                     
                 </div>
@@ -224,6 +218,7 @@
             </form>
         </div>
         <br>
+        <br><br><br>
         <div class="position-fixed bottom-0 end-0 p-3">
             <a href="WritingPage.html" class="btn btn-outline-danger">글쓰기</a>
         </div>
