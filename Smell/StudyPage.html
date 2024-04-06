@@ -83,7 +83,10 @@
             box-shadow: 0px 0px 3px 0px rgb(226, 60, 60);
             /* 그림자 효과를 추가 */
             border-radius: 5px;
+            /* 넌센스와 마이페이지 띄워 놓기위해 설정 */
+            margin-bottom: 150px;
         }
+
         .logoImage {
             width: 180px;
             height: 200px;
@@ -102,10 +105,25 @@
             font-family: "Gowun Dodum", sans-serif;
             /* 글꼴 변경 */
         }
+
+        /* 정답 숨기기 */
+        .quiz-answer {
+            display: none;
+        }
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="module">
+        // 정답을 보여주는 함수
+        function showAnswer() {
+            // 정답 요소 가져오기
+            const answerElement = document.querySelector(".quiz-answer");
+            // 정답 요소 보이기
+            answerElement.style.display = "block";
+        }
+
+        // 정답 보기 버튼에 클릭 이벤트 추가
+        document.getElementById("quizButton").addEventListener("click", showAnswer);
 
         $(document).ready(function () {
             let url = "http://spartacodingclub.shop/sparta_api/weather/seoul";  // 서울 날씨 API 요청을 위한 URL 
@@ -157,6 +175,35 @@
             fetchDataFromFirestore();
         });
 
+
+        // 넌센스 퀴즈 데이터 배열
+        const quizData = [
+            { question: "코끼리 두 마리가 싸움을 하다가 코가 빠지면?", answer: "끼리끼리" },
+            { question: "한국에서 가장 급하게 만든 떡은?", answer: "헐레벌떡" },
+            { question: "왕이 넘어지면?", answer: "킹콩" }
+            // 추가적인 퀴즈 추가!
+        ];
+        // 넌센스 퀴즈 보여주기 함수
+        function showRandomQuiz() {
+            // 랜덤한 인덱스 선택
+            const randomIndex = Math.floor(Math.random() * quizData.length);
+            // 선택된 퀴즈 데이터 가져오기
+            const quiz = quizData[randomIndex];
+            // DOM에 퀴즈 추가
+            const quizElement = document.createElement("div");
+            quizElement.innerHTML = `
+        <h4>넌센스 퀴즈</h4>
+        <p><strong>문제:</strong> ${quiz.question}</p>
+        <p class="quiz-answer" style="display: none;"><strong>답변:</strong> ${quiz.answer}</p>
+    `;
+            // 퀴즈 영역에 추가
+            const noticeBoard = document.querySelector(".quiz-item");
+            noticeBoard.appendChild(quizElement);
+        }
+
+        // 문서 로드 시 랜덤 퀴즈 보여주기
+        document.addEventListener("DOMContentLoaded", showRandomQuiz);
+
     </script>
 </head>
 
@@ -182,9 +229,9 @@
                                 id="temperature">20.00</span>도
                             <span id="temperature"></span></a></li>
                 </ul>
-                
-                 <!-- 로그아웃 버튼 -->
-                 <div class="text-end">
+
+                <!-- 로그아웃 버튼 -->
+                <div class="text-end">
                     <button id="logoutbtn" type="button" class="btn btn-outline-secondary">Logout</button>
                 </div>
             </div>
@@ -197,12 +244,24 @@
 
     <div class="container">
         <div class="notice_board">
-            <div class="notice_board_img">
-                <img class="logoImage"
-                src="https://github.com/LeeNaYoung240/smell_mini-project/assets/71262367/768387b6-55e9-4565-a82c-085d55cda927">
-                <p class="notice_board_text"><a href="MyPage.html" style="text-decoration: none; color: inherit;">▷
-                        mypage</a>
-                </p>
+            <div class="mypageAndQuiz">
+                <div class="notice_board_img">
+                    <img class="logoImage"
+                        src="https://github.com/LeeNaYoung240/smell_mini-project/assets/71262367/768387b6-55e9-4565-a82c-085d55cda927">
+                    <p class="notice_board_text"><a href="MyPage.html" style="text-decoration: none; color: inherit;">▷
+                            mypage</a>
+                    </p>
+                </div>
+                <div>
+                    <!-- 넌센스 퀴즈 -->
+                    <div class="quiz-item">
+
+                    </div>
+                    <button id="quizButton" type="button" class="btn btn-outline-success">정답 보기</button>
+                </div>
+            </div>
+            <div>
+
             </div>
             <div class="container d-flex justify-content-center">
                 <div class="board">
@@ -210,9 +269,11 @@
                         <h4>코딩테스트 스터디 모집</h4>
                         <p>18:00 ~ 스터디 모집합니다.</p>
                     </div>
-                    
+
+
                 </div>
             </div>
+
             <form class="mb-3">
                 <input type="search" class="form-control" placeholder="검색어를 입력하세요">
             </form>
