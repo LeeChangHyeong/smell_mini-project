@@ -133,8 +133,9 @@
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-       // import { getFirestore, collection, doc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        import { collection } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         // Firebase 구성 정보 설정
         const firebaseConfig = {
             apiKey: "AIzaSyB-eyQJ5vsYV1VPXbhXvUu0Bm5Do0AfGmY",
@@ -151,29 +152,35 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // 문서 로드 시 Firestore에서 데이터 가져오기
-        $(document).ready(function () {
-            fetchDataFromFirestore();
-        });
-
-        //글쓰기 게시글 저장된 데이터 불러옴
-        async function fetchDataFromFirestore() { 
-             const querySnapshot = await getDocs(collection(db, "posts"));
-
-             querySnapshot.docs.reverse().forEach((doc) => {
-                const data = doc.data();
-                const boardItem = `<div class="board-item">
-                    <h4>${data.title}</h4>
-                    <p>${data.date} ${data.time}</p>
-                    <p class="content">${data.content}</p>
-                </div>`;
+        function addDataToBoard(data) {
+            data.forEach(item => {
+                const boardItem = `
+            <div class="board-item">
+                <h4>${item.title}</h4>
+                <p>${item.content}</p>
+                <p>${item.date} ${item.time}</p>
+            </div>`;
                 $(".board").append(boardItem);
             });
         }
 
+        const postDocRef = doc(db, "posts", "자유 게시판");
+        getDoc(postDocRef).then((docSnapshot) => {
+            if (docSnapshot.exists()) {
+                const data = docSnapshot.data();
+                addDataToBoard(data.contents);
+            } else {
+                console.log("No such document!");
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+
+      
+
         // 검색어와 일치하는 부분을 강조하는 함수
         function highlightSearchResults(searchTerm) {
-            const contents = document.querySelectorAll('.content');   
+            const contents = document.querySelectorAll('.content');
             contents.forEach(content => {
                 const text = content.textContent;
                 const highlightedText = text.replace(new RegExp(searchTerm, 'gi'), '<span class="highlight">$&</span>');
@@ -183,7 +190,7 @@
         }
 
         // 검색어 입력 시 호출되는 함수
-        $('#searchInput').on('input', function() {
+        $('#searchInput').on('input', function () {
             const searchTerm = $(this).val().trim();
             highlightSearchResults(searchTerm);
         });
