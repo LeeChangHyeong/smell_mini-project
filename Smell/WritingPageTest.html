@@ -20,9 +20,28 @@
         <button type="submit">글쓰기</button>
     </form>
 
-    <script>
+    <script type="module">
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // Firebase 구성 정보 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyB-eyQJ5vsYV1VPXbhXvUu0Bm5Do0AfGmY",
+            authDomain: "smell-19e9a.firebaseapp.com",
+            projectId: "smell-19e9a",
+            storageBucket: "smell-19e9a.appspot.com",
+            messagingSenderId: "321477657279",
+            appId: "1:321477657279:web:48bec02f302e4b7bfb7c0a",
+            measurementId: "G-78FKFTNFZ4"
+        };
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         // 폼 제출 시 실행되는 이벤트 핸들러
-        document.getElementById("writeForm").addEventListener("submit", function(event) {
+        document.getElementById("writeForm").addEventListener("submit", async function(event) {
             event.preventDefault(); // 폼 제출 기본 동작 방지
 
             // 현재 날짜와 시간 가져오기
@@ -47,11 +66,20 @@
             const title = document.getElementById("title").value;
             const content = document.getElementById("content").value;
 
-            // 콘솔에 출력
-            console.log("제목:", title);
-            console.log("내용:", content);
-            console.log("현재 날짜:", formattedDate);
-            console.log("현재 시간:", formattedTime);
+            // Firebase Firestore에 데이터 추가
+            try {
+                const docRef = await addDoc(collection(db, "posts"), {
+                    title: title,
+                    content: content,
+                    date: formattedDate,
+                    time: formattedTime
+                });
+                console.log("Document written with ID: ", docRef.id);
+                alert("글이 성공적으로 저장되었습니다.");
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("글 저장 중 오류가 발생하였습니다.");
+            }
         });
     </script>
 </body>
