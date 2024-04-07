@@ -152,8 +152,9 @@
         });
         //글쓰기 게시글 저장된 데이터 불러옴
         async function fetchDataFromFirestore() { 
-            const querySnapshot = await getDocs(collection(db, "posts")); 
-            querySnapshot.forEach((doc) => {
+             const querySnapshot = await getDocs(collection(db, "posts"));
+
+             querySnapshot.docs.reverse().forEach((doc) => {
                 const data = doc.data();
                 const boardItem = `<div class="board-item">
                     <h4>${data.title}</h4>
