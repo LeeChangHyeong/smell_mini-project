@@ -11,6 +11,14 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <style>
+
+        /*폰트*/
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+
+        * {
+            font-family: "Gowun Dodum", sans-serif;
+        }
+        
         /*상단의 로고*/
         .title_logo {
             height: 150px;
@@ -278,16 +286,11 @@
                 <!-- 메뉴 목록 -->
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li><a href="LoginPage.html" class="nav-link px-2 text-secondary">LogOut</a></li>
-                    <li><a href="SignUpPage.html" class="nav-link px-2 text-secondary">SignUp</a></li>
                     <li><a href="#" class="nav-link px-2 text-danger">MyPage</a></li>
                     <li><a href="WritingPage.html" class="nav-link px-2 text-secondary">Study</a></li>
                     <li><a href="#" class="nav-link px-2 text-secondary">서울의 기온 : <span
                                 id="temperature">20.00</span>도</a></li>
                 </ul>
-                <!-- 로그인 버튼 -->
-                <div class="text-end">
-                    <button id="loginbtn" type="button" class="btn btn-outline-secondary">스터디 모집</button>
-                </div>
             </div>
         </div>
     </header>
@@ -327,8 +330,8 @@
         <p><span id="totalTime">00:00:00</span></p>
 
 
-        <button id="startButton">Start Studying</button>
-        <button id="stopButton">Stop Studying</button>
+        <button id="startButton" class="btn btn-outline-danger">Start Studying</button>
+        <button id="stopButton" class="btn btn-outline-danger">Stop Studying</button>
 
 
     </div>
