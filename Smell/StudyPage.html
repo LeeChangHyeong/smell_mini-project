@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>smell</title>
+    <!-- Bootstrap CSS 스타일시트를 가져오기 위한 link 태그. -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- 부트스트랩 -->
+    <style>
+        /*폰트*/
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+
+        * {
+            font-family: "Gowun Dodum", sans-serif;
+        }
+
+        /*상단의 로고*/
+        .title_logo {
+            height: 150px;
+            /*로고 높이 150*/
+            color: white;
+            /*텍스트 색상 : white*/
+
+            display: flex;
+            /* flexbox 레이아웃을 사용하여 요소를 가운데 정렬 */
+            flex-direction: column;
+            /* 세로 방향으로 배치 */
+            align-items: center;
+            /* 수평과 수직으로 가운데 정렬 */
+            justify-content: center;
+
+            /* 배경 이미지 설정 */
+            background-image: url('https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/22f3545f-bd3c-4ae7-920c-8a9dcbb86edb');
+            background-position: center;
+            background-size: cover;
+            /* 배경 이미지를 커버하는 크기로 설정 */
+        }
+
+
+        body {
+            background-color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .board {
+            width: 80%;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        .board-item {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .notice_board {
+            display: flex;
+            justify-content: flex-start;
+            /* 이미지와 검색 폼을 좌측으로 이동 */
+            margin-top: 70px;
+            /* 이미지와 검색 폼 사이의 간격을 조정 */
+        }
+
+        .notice_board_img {
+            width: 200px;
+            /* 이미지의 너비를 조정 */
+            height: auto;
+            /* 이미지의 높이를 자동으로 조정 */
+            margin-right: 20px;
+            /* 이미지와 검색 폼 사이의 간격을 조정 */
+            margin-left: 30px;
+            /* 이미지를 오른쪽으로 이동 */
+            margin-top: -50px;
+            /* 이미지를 위쪽으로 이동 */
+            padding: 13px;
+            /* 테두리와 이미지 사이의 간격을 조정 */
+            box-shadow: 0px 0px 3px 0px rgb(226, 60, 60);
+            /* 그림자 효과를 추가 */
+            border-radius: 5px;
+            /* 넌센스와 마이페이지 띄워 놓기위해 설정 */
+            margin-bottom: 150px;
+        }
+
+        .logoImage {
+            width: 180px;
+            height: 200px;
+        }
+
+        .notice_board form {
+            width: 500px;
+            /* 검색 폼의 너비를 조정 */
+        }
+
+        .notice_board_text {
+            text-align: center;
+            /* 텍스트 가운데 정렬 */
+            font-size: 1.2em;
+            /* 글꼴 크기를 조정 */
+            font-family: "Gowun Dodum", sans-serif;
+            /* 글꼴 변경 */
+        }
+
+        /* 정답 숨기기 */
+        .quiz-answer {
+            display: none;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="module">
+        // 정답을 보여주는 함수
+        function showAnswer() {
+            // 정답 요소 가져오기
+            const answerElement = document.querySelector(".quiz-answer");
+            // 정답 요소 보이기
+            answerElement.style.display = "block";
+        }
+
+        // 정답 보기 버튼에 클릭 이벤트 추가
+        document.getElementById("quizButton").addEventListener("click", showAnswer);
+
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // Firebase 구성 정보 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyB-eyQJ5vsYV1VPXbhXvUu0Bm5Do0AfGmY",
+            authDomain: "smell-19e9a.firebaseapp.com",
+            projectId: "smell-19e9a",
+            storageBucket: "smell-19e9a.appspot.com",
+            messagingSenderId: "321477657279",
+            appId: "1:321477657279:web:48bec02f302e4b7bfb7c0a",
+            measurementId: "G-78FKFTNFZ4"
+        };
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // 문서 로드 시 Firestore에서 데이터 가져오기
+        $(document).ready(function () {
+            fetchDataFromFirestore();
+        });
+        //글쓰기 게시글 저장된 데이터 불러옴
+        async function fetchDataFromFirestore() { 
+            const querySnapshot = await getDocs(collection(db, "posts")); 
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const boardItem = `<div class="board-item">
+                    <h4>${data.title}</h4>
+                    <p>${data.date} ${data.time}</p>
+                    <p>${data.content}</p>
+                </div>`;
+                $(".board").append(boardItem);
+            });
+        }
+
+        // 넌센스 퀴즈 데이터 배열
+        const quizData = [
+            { question: "코끼리 두 마리가 싸움을 하다가 코가 빠지면?", answer: "끼리끼리" },
+            { question: "한국에서 가장 급하게 만든 떡은?", answer: "헐레벌떡" },
+            { question: "왕이 넘어지면?", answer: "킹콩" },
+            { question: "소나무가 삐지면?", answer: "칫솔" },
+            { question: "왕이 궁에 가기 싫을 때 하는 말은?", answer: "궁시렁 궁시렁" },
+            { question: "사람이 가장 무거울 때는?", answer: "철들 때" },
+            { question: "아이들이 아홉명 모여있으면?", answer: "아이구" },
+            { question: "세상에서 가장 쉬운 숫자는?", answer: "십구만(190,000)" },
+            { question: "세상에서 가장 원통한 도형은?", answer: "원통" },
+            { question: "세상에서 가장 착한 사자는?", answer: "자원봉사자" },
+            { question: "소가 단체로 노래하면?", answer: "소송" },
+            { question: "왕과 작별인사를 할 때 하는 말은?", answer: "바이킹" },
+            { question: "소가 이긴다면?", answer: "우승" },
+            { question: "포도가 자기소개 할 때 하는 말?", answer: "포도당" },
+            { question: "깨가 죽으면?", answer: "주근깨" },
+            { question: "돈을 펑펑 쓰는 동물은?", answer: "사자" },
+            { question: "해가 울면?", answer: "해운대" },
+            { question: "어부들이 싫어하는 가수는?", answer: "배철수" },
+
+            // 추가적인 퀴즈 추가!
+        ];
+
+        // 넌센스 퀴즈 보여주기 함수
+        function showRandomQuiz() {
+            // 랜덤한 인덱스 선택
+            const randomIndex = Math.floor(Math.random() * quizData.length);
+            // 선택된 퀴즈 데이터 가져오기
+            const quiz = quizData[randomIndex];
+            // DOM에 퀴즈 추가
+            const quizElement = document.createElement("div");
+            quizElement.innerHTML = `
+                <h4>넌센스 퀴즈</h4>
+                <p><strong>문제:</strong> ${quiz.question}</p>
+                <p class="quiz-answer" style="display: none;"><strong>답변:</strong> ${quiz.answer}</p>
+            `;
+            // 퀴즈 영역에 추가
+            const noticeBoard = document.querySelector(".quiz-item");
+            noticeBoard.appendChild(quizElement);
+        }
+
+        // 문서 로드 시 랜덤 퀴즈 보여주기
+        document.addEventListener("DOMContentLoaded", showRandomQuiz);
+
+        // 로그아웃 버튼 클릭 이벤트 핸들러
+        $("#logoutbtn").click(function () {
+            // Firebase에서 로그아웃
+            auth.signOut().then(() => {
+                // 로그아웃 성공한 경우, 페이지를 로그인 페이지로 이동
+                window.location.href = "LoginPage.html"; // LoginPage.html은 실제 로그인 페이지 파일명에 맞게 변경해야 합니다.
+            }).catch((error) => {
+                // 로그아웃 실패한 경우, 콘솔에 오류 메시지 출력
+                console.error("로그아웃 에러:", error);
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+
+    <header class="p-3 text-bg-dark">
+        <!-- 컨테이너를 포함하는 div 요소로 헤더를 감싸줌 -->
+        <div class="container">
+            <!-- flexbox를 사용하여 요소들을 가로로 정렬 -->
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <!-- 로고 링크, 홈으로 이동하는 링크로 설정-->
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+                <!-- 메뉴 목록 -->
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+
+                    <li><a href="MyPage.html" class="nav-link px-2 text-secondary">mypage</a></li>
+                    <li><a href="#" class="nav-link px-2 text-danger">study</a></li>
+                    <li><a href="StudyPage.html" class="nav-link px-2 text-secondary">서울의 기온 : <span
+                                id="temperature">20.00</span>도
+                            <span id="temperature"></span></a></li>
+                </ul>
+
+                <!-- 로그아웃 버튼 -->
+                <div class="text-end">
+                    <button id="logoutbtn" type="button" class="btn btn-outline-secondary">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="title_logo">
+        <h1>smell</h1>
+    </div>
+    <br>
+
+    <div class="container">
+        <div class="notice_board">
+            <div class="mypageAndQuiz">
+                <div class="notice_board_img">
+                    <img class="logoImage"
+                        src="https://github.com/LeeNaYoung240/smell_mini-project/assets/71262367/768387b6-55e9-4565-a82c-085d55cda927">
+                    <p class="notice_board_text"><a href="MyPage.html" style="text-decoration: none; color: inherit;">▷
+                            mypage</a>
+                    </p>
+                </div>
+                <div>
+                    <!-- 넌센스 퀴즈 -->
+                    <div class="quiz-item">
+
+                    </div>
+                    <button id="quizButton" type="button" class="btn btn-outline-success">정답 보기</button>
+                </div>
+            </div>
+            <div class="container d-flex justify-content-center">
+                <div class="board">
+                    <!-- Firestore에서 가져온 게시물 추가 부분 -->
+                </div>
+            </div>
+
+            <form class="mb-3">
+                <input type="search" class="form-control" placeholder="검색어를 입력하세요">
+            </form>
+        </div>
+        <br>
+        <br><br><br>
+        <div class="position-fixed bottom-0 end-0 p-3">
+            <a href="WritingPageTest.html" class="btn btn-outline-danger">글쓰기</a>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
