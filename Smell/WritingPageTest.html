@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글쓰기 페이지</title>
+</head>
+
+<body>
+    <form id="writeForm">
+        <!-- 제목 입력란 -->
+        <label for="title">제목:</label><br>
+        <input type="text" id="title" name="title"><br>
+
+        <!-- 내용 입력란 -->
+        <label for="content">내용:</label><br>
+        <textarea id="content" name="content"></textarea><br>
+
+        <!-- 글쓰기 버튼 -->
+        <button type="submit">글쓰기</button>
+    </form>
+
+    <script type="module">
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, collection, doc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // Firebase 구성 정보 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyB-eyQJ5vsYV1VPXbhXvUu0Bm5Do0AfGmY",
+            authDomain: "smell-19e9a.firebaseapp.com",
+            projectId: "smell-19e9a",
+            storageBucket: "smell-19e9a.appspot.com",
+            messagingSenderId: "321477657279",
+            appId: "1:321477657279:web:48bec02f302e4b7bfb7c0a",
+            measurementId: "G-78FKFTNFZ4"
+        };
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 폼 제출 시 실행되는 이벤트 핸들러
+        document.getElementById("writeForm").addEventListener("submit", async function (event) {
+            event.preventDefault(); // 폼 제출 기본 동작 방지
+
+            // 현재 날짜와 시간 가져오기
+            const now = new Date();
+            const year = now.getFullYear(); // 년도 가져오기
+            let month = now.getMonth() + 1; // 월 가져오기 (0부터 시작하므로 1을 더함)
+            if (month < 10) month = "0" + month; // 한 자리 숫자일 경우 앞에 0 추가
+            let day = now.getDate(); // 일 가져오기
+            if (day < 10) day = "0" + day; // 한 자리 숫자일 경우 앞에 0 추가
+            let hours = now.getHours(); // 시간 가져오기
+            if (hours < 10) hours = "0" + hours; // 한 자리 숫자일 경우 앞에 0 추가
+            let minutes = now.getMinutes(); // 분 가져오기
+            if (minutes < 10) minutes = "0" + minutes; // 한 자리 숫자일 경우 앞에 0 추가
+            let seconds = now.getSeconds(); // 초 가져오기
+            if (seconds < 10) seconds = "0" + seconds; // 한 자리 숫자일 경우 앞에 0 추가
+
+            // 날짜와 시간 포맷팅
+            const formattedDate = `${year}-${month}-${day}`; // 날짜 포맷
+            const formattedTime = `${hours}:${minutes}:${seconds}`; // 시간 포맷
+
+            // 제목과 내용 가져오기
+            const title = document.getElementById("title").value;
+            const content = document.getElementById("content").value;
+
+
+            try {
+                const postRef = doc(db, "posts", "자유 게시판");
+                await updateDoc(postRef, {
+                    // 배열에 데이터 추가하기
+                    contents: arrayUnion({
+                        title: title,
+                        content: content,
+                        date: formattedDate,
+                        time: formattedTime
+                    })
+                });
+                console.log("Document successfully updated!");
+                alert("글이 성공적으로 저장되었습니다.");
+            } catch (error) {
+                console.error("Error updating document: ", error);
+                alert("글 저장 중 오류가 발생하였습니다.");
+            }
+        });
+    </script>
+</body>
+
+</html>
