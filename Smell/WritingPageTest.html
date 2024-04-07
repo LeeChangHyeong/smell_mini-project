@@ -6,10 +6,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>글쓰기 페이지</title>
+    
+    <style>
+        input[type="text"] {
+            border: 1.5px rgb(255, 0, 0) solid;
+            width: 500px;
+            height: 30px;
+            border-radius: 5px;
+            padding-left: 10px;
+        }
+
+        textarea {
+            border: 1.5px rgb(255, 0, 0) solid;
+            width: 500px;
+            height: 400px;
+            border-radius: 5px;
+            padding-left: 10px;
+            padding-top: 10px;
+        }
+        .Writingbox {
+            margin: 50px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .Writingbtn {
+            margin-left: 465px;
+            border-radius: 5px;
+            border-color: red;
+        }
+    </style>
 </head>
 
 <body>
-    <form id="writeForm">
+    <div class="Writingbox">
+        <form id="writeForm">
         <!-- 제목 입력란 -->
         <label for="title">제목:</label><br>
         <input type="text" id="title" name="title"><br>
@@ -17,10 +50,14 @@
         <!-- 내용 입력란 -->
         <label for="content">내용:</label><br>
         <textarea id="content" name="content"></textarea><br>
-
+    <div>
         <!-- 글쓰기 버튼 -->
-        <button type="submit">글쓰기</button>
+        <button class="Writingbtn" type="submit">글쓰기</button>
+    </div>
+        
     </form>
+    </div>
+    
 
     <script type="module">
         // Firebase SDK 라이브러리 가져오기
