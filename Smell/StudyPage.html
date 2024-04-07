@@ -154,6 +154,7 @@
 
         function addDataToBoard(data) {
             data.forEach(item => {
+    
                 const boardItem = `
             <div class="board-item">
                 <h4>${item.title}</h4>
@@ -169,6 +170,7 @@
             if (docSnapshot.exists()) {
                 const data = docSnapshot.data();
                 addDataToBoard(data.contents);
+                console.log(data);
             } else {
                 console.log("No such document!");
             }
