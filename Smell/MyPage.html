@@ -6,43 +6,222 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyPage</title>
 
+    <!--부트스트렙에서 css를 가져오기 위한 링크 연결-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <style>
-        .container {
-            height: 80px;
-            margin: 20px auto 0px auto;
+        /*상단의 로고*/
+        .title_logo {
+            height: 150px;
+            /*로고 높이 150*/
+            color: white;
+            /*텍스트 색상 : white*/
+
+            display: flex;
+            /* flexbox 레이아웃을 사용하여 요소를 가운데 정렬 */
+            flex-direction: column;
+            /* 세로 방향으로 배치 */
+            align-items: center;
+            /* 수평과 수직으로 가운데 정렬 */
+            justify-content: center;
+
+            /* 배경 이미지 설정 */
+            background-image: url('https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/22f3545f-bd3c-4ae7-920c-8a9dcbb86edb');
+            background-position: center;
+            background-size: cover;
+            /* 배경 이미지를 커버하는 크기로 설정 */
         }
+
+        .top {
+            display: flex;
+            justify-content: center;
+            /* 주 축(수평)을 기준으로 가운데 정렬 */
+            align-items: center;
+            /* 교차 축(수직)을 기준으로 가운데 정렬 */
+        }
+
+
+        .logo {
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+            /* 그림자 속성 */
+            border-radius: 20px;
+            width: 250px;
+            height: 190px;
+            margin-right: 40px;
+            margin-top: 30px;
+            position: relative;
+            text-align: center;
+            /* 텍스트를 수평으로 가운데 정렬합니다. */
+            display: table;
+            /* 테이블로 정렬을 하기 위해 요소를 테이블로 설정 */
+
+        }
+
+        .logo-img {
+            border-radius: 20px;
+            width: 180px;
+            margin-top: 10px;
+
+        }
+
+        .weather {
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+            /* 그림자 속성 */
+            border-radius: 20px;
+            width: 250px;
+            height: 190px;
+            margin-right: 40px;
+            margin-top: 30px;
+            position: relative;
+            text-align: center;
+            /* 텍스트를 수평으로 가운데 정렬합니다. */
+        }
+
+        .weather-text {
+            font-size: 30px;
+            margin-top: 10px;
+            text-align: center;
+            /* 텍스트를 수평으로 가운데 정렬합니다. */
+        }
+
+        #tem {
+            font-size: 40px;
+        }
+
+        .name {
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+            /* 그림자 속성 */
+            border-radius: 20px;
+            width: 250px;
+            height: 190px;
+            margin-right: 40px;
+            margin-top: 30px;
+            position: relative;
+            text-align: center;
+            /* 텍스트를 수평으로 가운데 정렬합니다. */
+        }
+
+        .name-text {
+            font-size: 20px;
+            margin-top: 10px;
+            text-align: center;
+            /* 텍스트를 수평으로 가운데 정렬합니다. */
+        }
+
+        #StudyTime {
+            font-size: 40px;
+        }
+
+
+
+        .rank {
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+            /* 그림자 속성 */
+            border-radius: 20px;
+            width: 250px;
+            height: 190px;
+            margin-top: 30px;
+            position: relative;
+            text-align: center;
+            /* 텍스트를 수평으로 가운데 정렬합니다. */
+            display: table;
+            /* 테이블로 정렬을 하기 위해 요소를 테이블로 설정 */
+        }
+
+        .rank-text {
+            font-size: 20px;
+            display: table-cell;
+            /* 텍스트를 테이블 셀로 설정 */
+            vertical-align: middle;
+            /* 수직으로 중앙 정렬 */
+        }
+
 
         .timer {
-            /*타이머 텍스트 가운데 정렬*/
+            display: flex;
+            box-shadow: 5px 5px 5px 5px rgba(76, 82, 96, 0.5);
+            /* 그림자 속성 */
+            width: 95%;
+            height: 500px;
+            border-radius: 50px;
+            margin: 25px auto 0px auto;
+            position: relative;
+        }
+
+        .timer-text {
             text-align: center;
+            /* 텍스트를 수평으로 가운데 정렬합니다. */
+            background-color: #64D6FF;
+            color: aliceblue;
+            border-radius: 50px;
+            width: 280px;
+            height: 60px;
+            position: absolute;
+            margin: 20px auto 0px 10px;
         }
 
-        .styledButton {
-            border-radius: 10px;
-            background-color: gold;
+        #startButton {
+            width: 200px;
+            height: 50px;
+            bottom: 20px;
+            right: 250px;
+            /* 버튼 간격 조정 */
+            border-radius: 50px;
+            position: absolute;
         }
 
-        .styledButton2 {
-            border-radius: 10px;
-            background-color: gold;
+        #stopButton {
+            width: 200px;
+            height: 50px;
+            bottom: 20px;
+            right: 20px;
+            border-radius: 50px;
+            position: absolute;
+        }
+
+        #totalTime {
+            font-size: 200px;
+            top: 65px;
+            left: 300px;
+            position: absolute;
+        }
+
+
+        .bottom {
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+            /* 그림자 속성 */
+            width: 95%;
+            height: 220px;
+            border-radius: 50px;
+            margin: 25px auto 0px auto;
+            position: relative;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="module">
-        //API에서 현재 서울의 기온을 가져와 출력
-        $(document).ready(function () {
-            let url = "http://spartacodingclub.shop/sparta_api/weather/seoul";//API를 받아 오기 위한 URL
-            fetch(url).then(res => res.json()).then(data => {
-                let temp = data['temp']; //온도 정보 저장
-                $('#msg').text(temp); //온도 정보를 해당 ID에 텍스트로 출력
-            })
-        })
 
-        //타이머설정 부분
+        /*temperature에 날씨 데이터 입력*/
+        $(document).ready(function () {
+            let url = "http://spartacodingclub.shop/sparta_api/weather/seoul";  // 서울 날씨 API 요청을 위한 URL 
+            // 해당 URL로 GET 요청을 보내고, 받은 응답을 JSON 형식으로 변환
+            fetch(url).then(res => res.json()).then(data => {
+                let temp = data['temp']; // 응답에서 온도 정보 추출
+                $('#temperature').text(temp);  // 온도 정보를 해당 요소에 텍스트로 추가
+            });
+        });
+
+        /*tem에 날씨 데이터 입력*/
+        $(document).ready(function () {
+            let url = "http://spartacodingclub.shop/sparta_api/weather/seoul";  // 서울 날씨 API 요청을 위한 URL 
+            // 해당 URL로 GET 요청을 보내고, 받은 응답을 JSON 형식으로 변환
+            fetch(url).then(res => res.json()).then(data => {
+                let temp = data['temp']; // 응답에서 온도 정보 추출
+                $('#tem').text(temp);  // 온도 정보를 해당 요소에 텍스트로 추가
+            });
+        });
+
         let startTime;
         let totalTime = 0;
         let timerInterval;
@@ -53,12 +232,10 @@
         function startTimer() {
             startTime = Date.now() - totalTime;
             timerInterval = setInterval(updateTime, 1000);
-            console.log("Timer started!"); // 타이머가 시작되었음을 콘솔에 출력
         }
 
         function stopTimer() {
             clearInterval(timerInterval);
-            console.log("Timer stopped!"); // 타이머가 종료되었음을 콘솔에 출력
         }
 
         function updateTime() {
@@ -85,40 +262,84 @@
 </head>
 
 <body>
+
+    <!--상단바-->
     <header class="p-3 text-bg-dark">
+        <!-- 컨테이너를 포함하는 div 요소로 헤더를 감싸줌 -->
         <div class="container">
+            <!-- flexbox를 사용하여 요소들을 가로로 정렬 -->
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <!-- 로고 링크, 홈으로 이동하는 링크로 설정-->
                 <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                     <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
                         <use xlink:href="#bootstrap"></use>
                     </svg>
                 </a>
-
+                <!-- 메뉴 목록 -->
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="#" class="nav-link px-2 text-">스멜</a></li>
-                    <li><a href="#" class="nav-link px-2 text-dark">날씨: <span id="msg"></span></a></li>
-                    <li><a href="#" class="nav-link px-2 text-dark">음악:</a></li>
-                    <li><a href="#" class="nav-link px-2 text-dark">"사용자 이름"</a></li>
-                    <li><a href="#" class="nav-link px-2 text-dark">공부시간:</a></li>
-                    <li><a href="#" class="nav-link px-2 text-dark">내 랭킹:</a></li>
+                    <li><a href="LoginPage.html" class="nav-link px-2 text-secondary">LogOut</a></li>
+                    <li><a href="SignUpPage.html" class="nav-link px-2 text-secondary">SignUp</a></li>
+                    <li><a href="#" class="nav-link px-2 text-danger">MyPage</a></li>
+                    <li><a href="WritingPage.html" class="nav-link px-2 text-secondary">Study</a></li>
+                    <li><a href="#" class="nav-link px-2 text-secondary">서울의 기온 : <span
+                                id="temperature">20.00</span>도</a></li>
                 </ul>
-
+                <!-- 로그인 버튼 -->
                 <div class="text-end">
-                    <button type="button" class="btn btn-warning">스터디 모집</button>
+                    <button id="loginbtn" type="button" class="btn btn-outline-secondary">스터디 모집</button>
                 </div>
             </div>
         </div>
     </header>
+    <!--상단 로고-->
+    <div class="title_logo">
+        <h1>smell</h1>
+    </div>
+
+    <!--상단에 위치하는 -->
+    <div class="top">
+        <div class="logo">
+            <img src="https://dimg.donga.com/wps/NEWS/IMAGE/2014/03/17/61769430.2.jpg" art="스컹크이미지" class="logo-img">
+            <p>오늘도 화이팅!</p>
+        </div>
+        <div class="weather">
+            <p class="weather-text">
+            <p>오늘의 날씨</p>
+            <p id="tem"></p>
+            </p>
+        </div>
+        <div class="name">
+            <div class="name-text">
+                <p id="name">스파르타<span>님의</span></p>
+                <p>현재까지 공부시간</p>
+                <p id="StudyTime">13:00:00</p>
+            </div>
+
+        </div>
+        <div class="rank">
+            <p class="rank-text">My Rank</p>
+        </div>
+    </div>
 
     <div class="timer">
-        <h1>Study Timer</h1>
-        <!--타이머 출력-->
-        <h1><span id="totalTime">00:00:00</span></h1>
-        <!--타이머 시작-->
-        <button id="startButton" class="styledButton">Start Studying</button>
-        <!--타이머 종료-->
-        <button id="stopButton" class="styledButton2">Stop Studying</button>
+        <h1 class="timer-text">Study Timer</h1>
+
+        <p><span id="totalTime">00:00:00</span></p>
+
+
+        <button id="startButton">Start Studying</button>
+        <button id="stopButton">Stop Studying</button>
+
+
     </div>
+
+    <div class="check">
+    </div>
+
+    <div class="bottom">
+    </div>
+
+
 </body>
 
 </html>
