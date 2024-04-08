@@ -55,6 +55,20 @@
             padding-left: 10px;
             padding-top: 10px;
         }
+        .form-floating {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-select {
+            border-radius: 5px;
+            border-color: red;
+            width: 500px;
+            height: 35px;
+            margin-top: 20px;
+        }
 
         .Writingbox {
             margin: 50px;
@@ -199,6 +213,15 @@
     </div>
 
     <div class="Writingbox">
+        <div class="form-floating">
+            <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                <option selected>게시판 선택</option>
+                <option value="1">스터디모집 게시판</option>
+                <option value="2">자유 게시판</option>
+            </select>
+            <label for="floatingSelect"></label>
+        </div>
+
         <form id="writeForm">
             <!-- 제목 입력란 -->
             <label for="title">제목:</label><br>
