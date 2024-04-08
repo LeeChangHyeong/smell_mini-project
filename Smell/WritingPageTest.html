@@ -71,20 +71,13 @@
             border-color: red;
         }
 
-        .nav {
-
-            padding-right: 750px;
-        }
-
-        .text-end button {
-
-            margin-left: 1000px
+        .text-end {
+            margin-left: auto;
+            /* 이 코드는 로그아웃 버튼을 오른쪽으로 이동시킵니다. */
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="module">
-       
-
         // 폼 제출 시 실행되는 이벤트 핸들러
         document.getElementById("writeForm").addEventListener("submit", async function (event) {
             event.preventDefault(); // 폼 제출 기본 동작 방지
@@ -169,18 +162,33 @@
 </head>
 
 <body>
+    <header class="p-3 text-bg-dark">
+        <!-- 컨테이너를 포함하는 div 요소로 헤더를 감싸줌 -->
+        <div class="container">
+            <!-- flexbox를 사용하여 요소들을 가로로 정렬 -->
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <!-- 로고 링크, 홈으로 이동하는 링크로 설정-->
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+                <!-- 메뉴 목록 -->
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 
-    <!-- 메뉴 목록 -->
-    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="MyPage.html" class="nav-link px-2 text-secondary">mypage</a></li>
-        <li><a href="StudyPage.html" class="nav-link px-2 text-secondary">study</a></li>
-        <li><a href="BoardPage.html" class="nav-link px-2 text-secondary">notice board</a></li>
-    </ul>
-
-    <div class="text-end">
-        <button id="logoutbtn" type="button" class="btn btn-outline-secondary">Logout</button>
-    </div>
-
+                    <li><a href="MyPage.html" class="nav-link px-2 text-secondary">mypage</a></li>
+                    <li><a href="#" class="nav-link px-2 text-danger">study</a></li>
+                    <li><a href="StudyPage.html" class="nav-link px-2 text-secondary">서울의 기온 : <span
+                                id="temperature">20.00</span>도
+                            <span id="temperature"></span></a></li>
+                </ul>
+                <!-- 로그아웃 버튼 -->
+                <div class="text-end">
+                    <button id="logoutbtn" type="button" class="btn btn-outline-secondary">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
     <div class="title_logo">
         <h1>smell</h1>
     </div>
@@ -202,7 +210,7 @@
         </form>
     </div>
 
-    
+
 </body>
 
 </html>
