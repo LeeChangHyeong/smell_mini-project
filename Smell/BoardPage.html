@@ -52,6 +52,7 @@
 
             padding: 50px;
         }
+
         .writer {
             text-align: right;
             padding: 0px 40px 0px 0px;
@@ -70,6 +71,10 @@
         .content {
             text-align: left;
             padding: 10px 50px 30px 50px;
+        }
+
+        .card-footer {
+            padding: 20px;
         }
     </style>
     <script type="module">
@@ -115,6 +120,45 @@
         }).catch((error) => {
             console.log("Error getting document:", error);
         });
+        // 댓글 추가 함수
+        function addComment(event) {
+            event.preventDefault(); // 폼 제출의 기본 동작 방지
+            const comment = document.getElementById('commentInput').value; // 입력된 댓글 내용 가져오기
+            if (comment.trim() !== '') { // 댓글이 비어 있지 않은 경우에만 실행
+                const commentsDiv = document.querySelector('.comments'); // 댓글을 표시할 div 요소 가져오기
+                const newCommentDiv = document.createElement('div'); // 새로운 댓글을 담을 div 요소 생성
+
+                // 현재 시간을 구하는 함수 호출하여 현재 시간을 가져와서 표시
+                const currentTime = getCurrentDateTime();
+
+                newCommentDiv.innerHTML = `
+            <br>
+            <p style="font-weight: bolder;">댓글 작성자</p>
+            <div>${comment}</div>
+            <br>
+            <p style="font-size: 10px; font-weight: lighter;">${currentTime}</p>
+            <hr>
+        `; // 새로운 댓글 내용을 HTML로 설정
+                commentsDiv.appendChild(newCommentDiv); // 새로운 댓글을 표시할 div에 추가
+                document.getElementById('commentForm').reset(); // 폼 초기화
+            }
+        }
+
+
+        // 현재 날짜와 시간을 문자열로 반환하는 함수
+        function getCurrentDateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 2자리로 만듭니다.
+            const day = String(now.getDate()).padStart(2, '0'); // 일
+            const hours = String(now.getHours()).padStart(2, '0'); // 시
+            const minutes = String(now.getMinutes()).padStart(2, '0'); // 분
+            const seconds = String(now.getSeconds()).padStart(2, '0'); // 초
+            return `${year}.${month}.${day}. ${hours}:${minutes}:${seconds}`;
+        }
+
+        // 댓글 폼에 제출 이벤트 리스너 추가
+        document.getElementById('commentForm').addEventListener('submit', addComment);
     </script>
 </head>
 
@@ -162,28 +206,20 @@
     <div class="content">
     </div>
 
-    <br>
     <div class="card-footer">
-        <form onsubmit="addComment(event)">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="댓글을 입력하세요" required>
-          </div>
-          <button type="submit" class="btn btn-primary">작성</button>
+        <form id="commentForm">
+            <div class="form-group">
+                <input id="commentInput" type="text" class="form-control" placeholder="댓글을 입력하세요" required>
+            </div>
+            <div class="text-end" style="padding-top: 20px;">
+                <button id="submitButton" type="submit" class="btn btn-primary">작성</button>
+            </div>
+
         </form>
+
         <div class="comments mt-3">
         </div>
-      </div>
-    
-    <div>
-        <br>
-        <p style = "font-weight: bolder;">&nbsp;&nbsp;&nbsp;&nbsp;뽀요</p>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;여긴 메뉴 다 맛있어요ㅎ 사장님 좋은일도 하시던데 돈쭐 내줘야하는데 말이에요~ </div> 
-        <br>
-        <p style = "font-size: 10px; font-weight: lighter;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2024.04.07. 08:19</p>
-        <hr>
     </div>
-
-
 </body>
 
 </html>
