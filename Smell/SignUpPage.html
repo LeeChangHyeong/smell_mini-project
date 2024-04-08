@@ -124,7 +124,7 @@
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, setDoc,doc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
         // Firebase 구성 정보 설정
         const firebaseConfig = {
@@ -144,20 +144,16 @@
 
         // 회원가입 버튼 클릭 시 Firebase Authentication을 사용하여 사용자 생성
         $("#signbtn").click(async function () {
-            // 입력된 사용자 이름, 이메일, 비밀번호를 가져옴
+            // 이름, 이메일, 비밀번호
             let name = $('#name').val();
             let email = $('#email').val();
-            let password =
-                $('#password').val();
+            let password = $('#password').val();
 
             try {
-                // Firebase Authentication을 사용하여 사용자 생성
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                // Firestore에 사용자 정보 추가
-                await addDoc(collection(db, "users"), {
+                await setDoc(doc(db, "users", userCredential.user.uid), { // 문서 이름을 사용자 UID로 설정
                     name: name,
-                    email: email,
-                    uid: userCredential.user.uid // 사용자의 고유 식별자(uid)도 저장
+                    email: email
                 });
                 alert('회원 가입 완료!');
                 window.location.reload(); // 페이지 새로고침
@@ -167,7 +163,6 @@
                 alert(errorMessage);
             }
         });
-
         // 로그인 버튼 클릭 이벤트 핸들러
         $("#loginbtn").click(function () {
             window.location.href = "LoginPage.html"; // 로그인 페이지의 파일명으로 변경해야 합니다.
@@ -183,6 +178,7 @@
                 console.log("Name:", name, "Email:", email, "Password:", password);
             });
         }
+
         // 문서 로드 시 Firestore에서 데이터 가져오기
         $(document).ready(function () {
             fetchDataFromFirestore();
@@ -241,8 +237,9 @@
     <div class="signupbox" id="signupbox">
         <!-- 사용자 이름을 입력하는 폼 -->
         <div class="form-group">
-            <img class="id-icon" src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6180769d-e49d-42f6-bca0-3febffee69db
-                 " alt="아이콘">
+            <img class="id-icon"
+                src="https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/6180769d-e49d-42f6-bca0-3febffee69db"
+                alt="아이콘">
             <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="name" placeholder="name">
                 <label for="name">name</label>

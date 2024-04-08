@@ -11,14 +11,13 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <style>
-
         /*폰트*/
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
 
         * {
             font-family: "Gowun Dodum", sans-serif;
         }
-        
+
         /*상단의 로고*/
         .title_logo {
             height: 150px;
@@ -265,6 +264,28 @@
             return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
         }
 
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        import { collection } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // Firebase 구성 정보 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyB-eyQJ5vsYV1VPXbhXvUu0Bm5Do0AfGmY",
+            authDomain: "smell-19e9a.firebaseapp.com",
+            projectId: "smell-19e9a",
+            storageBucket: "smell-19e9a.appspot.com",
+            messagingSenderId: "321477657279",
+            appId: "1:321477657279:web:48bec02f302e4b7bfb7c0a",
+            measurementId: "G-78FKFTNFZ4"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
         // 로그아웃 버튼 클릭 이벤트 핸들러
         $("#logoutbtn").click(function () {
             // Firebase에서 로그아웃
@@ -275,6 +296,29 @@
                 // 로그아웃 실패한 경우, 콘솔에 오류 메시지 출력
                 console.error("로그아웃 에러:", error);
             });
+        });
+
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const userDocRef = doc(db, "users", user.uid); // 사용자의 UID를 이용하여 문서 참조 생성
+                getDoc(userDocRef).then((docSnapshot) => {
+                    if (docSnapshot.exists()) {
+                        const userData = docSnapshot.data();
+                        // 사용자 이름을 화면에 표시
+                        document.getElementById("username").innerText = userData.name;
+                        // 이름을 로고 아래에 추가
+                        const logoParagraph = document.querySelector('.logo p');
+                        logoParagraph.textContent = userData.name + '님 오늘도 화이팅!';
+                    } else {
+                        console.log("해당 사용자 정보가 없습니다.");
+                    }
+                }).catch((error) => {
+                    console.error("사용자 정보 가져오기 에러:", error);
+                });
+            } else {
+                console.log("사용자가 로그인되어 있지 않습니다.");
+            }
         });
 
 
@@ -330,7 +374,7 @@
         </div>
         <div class="name">
             <div class="name-text">
-                <p id="name">스파르타<span>님의</span></p>
+                <p id="username">스파르타<span>님의</span></p>
                 <p>현재까지 공부시간</p>
                 <p id="StudyTime">13:00:00</p>
             </div>
