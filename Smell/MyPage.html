@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>MyPage</title>
 
     <!--부트스트렙에서 css를 가져오기 위한 링크 연결-->
@@ -265,6 +265,29 @@
             return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
         }
 
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        import { collection } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        
+        // Firebase 구성 정보 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyB-eyQJ5vsYV1VPXbhXvUu0Bm5Do0AfGmY",
+            authDomain: "smell-19e9a.firebaseapp.com",
+            projectId: "smell-19e9a",
+            storageBucket: "smell-19e9a.appspot.com",
+            messagingSenderId: "321477657279",
+            appId: "1:321477657279:web:48bec02f302e4b7bfb7c0a",
+            measurementId: "G-78FKFTNFZ4"
+        };
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
         // 로그아웃 버튼 클릭 이벤트 핸들러
         $("#logoutbtn").click(function () {
             // Firebase에서 로그아웃
@@ -276,7 +299,6 @@
                 console.error("로그아웃 에러:", error);
             });
         });
-
 
     </script>
 </head>
@@ -298,7 +320,7 @@
                 <!-- 메뉴 목록 -->
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li><a href="#" class="nav-link px-2 text-danger">MyPage</a></li>
-                    <li><a href="WritingPage.html" class="nav-link px-2 text-secondary">Study</a></li>
+                    <li><a href="StudyPage.html" class="nav-link px-2 text-secondary">Study</a></li>
                     <li><a href="#" class="nav-link px-2 text-secondary">서울의 기온 : <span
                                 id="temperature">20.00</span>도</a></li>
                 </ul>
