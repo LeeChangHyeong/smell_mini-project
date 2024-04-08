@@ -181,8 +181,9 @@
 
         function addDataToBoard(data, boardName) {
     data.reverse().forEach((item, index) => { // forEach 메서드의 두 번째 매개변수로 현재 인덱스를 받음
+        const originalIndex = data.length - 1 - index; // 원래 배열에서의 인덱스 계산
         const boardItem = `
-            <div class="board-item" data-index="${index}">
+            <div class="board-item" data-index="${originalIndex}">
                 <h4>${boardName}</h4>
                 <h4>${item.title}</h4>
                 <p>${item.content}</p>
