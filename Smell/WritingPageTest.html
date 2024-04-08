@@ -81,66 +81,9 @@
             margin-left: 1000px
         }
     </style>
-
-
-</head>
-
-<body>
-
-    <!-- 메뉴 목록 -->
-    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="MyPage.html" class="nav-link px-2 text-secondary">mypage</a></li>
-        <li><a href="StudyPage.html" class="nav-link px-2 text-secondary">study</a></li>
-        <li><a href="BoardPage.html" class="nav-link px-2 text-secondary">notice board</a></li>
-    </ul>
-
-    <div class="text-end">
-        <button id="logoutbtn" type="button" class="btn btn-outline-secondary">Logout</button>
-    </div>
-
-    <div class="title_logo">
-        <h1>smell</h1>
-    </div>
-
-    <div class="Writingbox">
-        <form id="writeForm">
-            <!-- 제목 입력란 -->
-            <label for="title">제목:</label><br>
-            <input type="text" id="title" name="title"><br>
-
-            <!-- 내용 입력란 -->
-            <label for="content">내용:</label><br>
-            <textarea id="content" name="content"></textarea><br>
-            <div>
-                <!-- 글쓰기 버튼 -->
-                <button class="Writingbtn" type="submit">글쓰기</button>
-            </div>
-
-        </form>
-    </div>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="module">
-        // Firebase SDK 라이브러리 가져오기
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore, collection, doc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { collection } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-        // Firebase 구성 정보 설정
-        const firebaseConfig = {
-            apiKey: "AIzaSyB-eyQJ5vsYV1VPXbhXvUu0Bm5Do0AfGmY",
-            authDomain: "smell-19e9a.firebaseapp.com",
-            projectId: "smell-19e9a",
-            storageBucket: "smell-19e9a.appspot.com",
-            messagingSenderId: "321477657279",
-            appId: "1:321477657279:web:48bec02f302e4b7bfb7c0a",
-            measurementId: "G-78FKFTNFZ4"
-        };
-
-        // Firebase 인스턴스 초기화
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+       
 
         // 폼 제출 시 실행되는 이벤트 핸들러
         document.getElementById("writeForm").addEventListener("submit", async function (event) {
@@ -187,6 +130,29 @@
                 alert("글 저장 중 오류가 발생하였습니다.");
             }
         });
+
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        import { collection } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        // Firebase 구성 정보 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyB-eyQJ5vsYV1VPXbhXvUu0Bm5Do0AfGmY",
+            authDomain: "smell-19e9a.firebaseapp.com",
+            projectId: "smell-19e9a",
+            storageBucket: "smell-19e9a.appspot.com",
+            messagingSenderId: "321477657279",
+            appId: "1:321477657279:web:48bec02f302e4b7bfb7c0a",
+            measurementId: "G-78FKFTNFZ4"
+        };
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
         // 로그아웃 버튼 클릭 이벤트 핸들러
         $("#logoutbtn").click(function () {
             // Firebase에서 로그아웃
@@ -200,6 +166,43 @@
         });
 
     </script>
+</head>
+
+<body>
+
+    <!-- 메뉴 목록 -->
+    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="MyPage.html" class="nav-link px-2 text-secondary">mypage</a></li>
+        <li><a href="StudyPage.html" class="nav-link px-2 text-secondary">study</a></li>
+        <li><a href="BoardPage.html" class="nav-link px-2 text-secondary">notice board</a></li>
+    </ul>
+
+    <div class="text-end">
+        <button id="logoutbtn" type="button" class="btn btn-outline-secondary">Logout</button>
+    </div>
+
+    <div class="title_logo">
+        <h1>smell</h1>
+    </div>
+
+    <div class="Writingbox">
+        <form id="writeForm">
+            <!-- 제목 입력란 -->
+            <label for="title">제목:</label><br>
+            <input type="text" id="title" name="title"><br>
+
+            <!-- 내용 입력란 -->
+            <label for="content">내용:</label><br>
+            <textarea id="content" name="content"></textarea><br>
+            <div>
+                <!-- 글쓰기 버튼 -->
+                <button class="Writingbtn" type="submit">글쓰기</button>
+            </div>
+
+        </form>
+    </div>
+
+    
 </body>
 
 </html>
