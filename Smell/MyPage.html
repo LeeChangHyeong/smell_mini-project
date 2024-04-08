@@ -120,6 +120,13 @@
             font-size: 40px;
         }
 
+        #ranking {
+            font-size: 40px;
+            margin-top: 0;
+            /* 기본적인 마진을 제거 */
+            font-size: 40px;
+        }
+
 
 
         .rank {
@@ -134,6 +141,12 @@
             /* 텍스트를 수평으로 가운데 정렬합니다. */
             display: table;
             /* 테이블로 정렬을 하기 위해 요소를 테이블로 설정 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* 세로 방향으로 가운데 정렬 */
+            height: 190px;
         }
 
         .rank-text {
@@ -142,6 +155,7 @@
             /* 텍스트를 테이블 셀로 설정 */
             vertical-align: middle;
             /* 수직으로 중앙 정렬 */
+            margin-bottom: 10px;
         }
 
 
@@ -332,13 +346,16 @@
                 getDoc(userDocRef).then((docSnapshot) => {
                     if (docSnapshot.exists()) {
                         const userData = docSnapshot.data();
-
+                        
                         document.getElementById("username").innerText = userData.name;
                         document.getElementById("totalTime").textContent = userData.time;
                         document.getElementById("StudyTime").textContent = userData.time;
+                       
                         const logoParagraph = document.querySelector('.logo p');
                         logoParagraph.textContent = userData.name + '님 오늘도 화이팅!';
                         totalTime = timeToMilliseconds(userData.time);
+                        const rank = userData.rank; // Firestore에서 랭킹 가져오기
+                        document.getElementById("ranking").textContent = rank;
                     } else {
                         console.log("해당 사용자 정보가 없습니다.");
                     }
@@ -367,20 +384,20 @@
                             let rank = 1;
 
                             timeArray.forEach((item, index) => { // index 추가
-    const userData = querySnapshot.docs.find((doc) => doc.id === item.uid).data();
-    console.log(userData.name, " => ", userData.time);
-    console.log(item.uid); // uid
-    const userDocRef = doc(db, "users", item.uid); // item.uid 로 변경
-    const updatedRank = index + 1; // 순위 계산
-    console.log(updatedRank);
-    updateDoc(userDocRef, {
-        rank: updatedRank // 업데이트된 순위 전달
-    }).then(() => {
-        console.log("랭킹이 Firestore에 성공적으로 업데이트되었습니다.");
-    }).catch((error) => {
-        console.error("랭킹 업데이트 에러:", error);
-    });
-});
+                                const userData = querySnapshot.docs.find((doc) => doc.id === item.uid).data();
+                                console.log(userData.name, " => ", userData.time);
+                                console.log(item.uid); // uid
+                                const userDocRef = doc(db, "users", item.uid); // item.uid 로 변경
+                                const updatedRank = index + 1; // 순위 계산
+                                console.log(updatedRank);
+                                updateDoc(userDocRef, {
+                                    rank: updatedRank // 업데이트된 순위 전달
+                                }).then(() => {
+                                    console.log("랭킹이 Firestore에 성공적으로 업데이트되었습니다.");
+                                }).catch((error) => {
+                                    console.error("랭킹 업데이트 에러:", error);
+                                });
+                            });
                         } else {
                             console.log("사용자 데이터가 없습니다.");
                         }
@@ -452,6 +469,7 @@
         </div>
         <div class="rank">
             <p class="rank-text">My Rank</p>
+            <p id="ranking">0</p>
         </div>
     </div>
 
