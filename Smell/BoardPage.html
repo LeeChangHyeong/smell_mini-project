@@ -105,30 +105,58 @@
         // index 매개변수의 값을 가져오기
         const index = urlParams.get('index');
         // index를 사용하여 해당 데이터를 가져와서 사용
+        const isStudyBoard = urlParams.get('isStudyBoard');
 
-        const postDocRef = doc(db, "posts", "자유 게시판");
-        getDoc(postDocRef).then((docSnapshot) => {
-            if (docSnapshot.exists()) {
+        if (isStudyBoard) {
+            const postDocRef = doc(db, "posts", "스터디 모집 게시판");
+            getDoc(postDocRef).then((docSnapshot) => {
+                if (docSnapshot.exists()) {
 
-                const data = docSnapshot.data();
-                const useData = data.contents[index]; // 숫자 넘겨 와서 받아와야함
-                const title = useData.title;
-                const date = useData.date;
-                const time = useData.time;
-                const content = useData.content;
-                $(".title").append(`<h1>${title}</h1>`);
-                $(".content").append(`<h2>${content}</h2>`);
-                $(".date").append(`<h5>📅 ${date}</h5>`);
-                $(".time").append(`<h5>🕖 ${time}</h5>`);
-                $(".writer").append(`<h5>작성자: 이창형</h5>`);
-            } else {
-                $(".title").append(`<h1>게시글을 불러올 수 없습니다</h1>`);
-                $(".content").append(`<h2>게시글을 불러올 수 없습니다</h2>`);
-                $(".date").append(`<h5>날짜와 시간을 불러올 수 없습니다</h5>`);
-            }
-        }).catch((error) => {
-            console.log("Error getting document:", error);
-        });
+                    const data = docSnapshot.data();
+                    const useData = data.contents[index]; // 숫자 넘겨 와서 받아와야함
+                    const title = useData.title;
+                    const date = useData.date;
+                    const time = useData.time;
+                    const content = useData.content;
+                    $(".title").append(`<h1>${title}</h1>`);
+                    $(".content").append(`<h2>${content}</h2>`);
+                    $(".date").append(`<h5>📅 ${date}</h5>`);
+                    $(".time").append(`<h5>🕖 ${time}</h5>`);
+                    $(".writer").append(`<h5>작성자: 이창형</h5>`);
+                } else {
+                    $(".title").append(`<h1>게시글을 불러올 수 없습니다</h1>`);
+                    $(".content").append(`<h2>게시글을 불러올 수 없습니다</h2>`);
+                    $(".date").append(`<h5>날짜와 시간을 불러올 수 없습니다</h5>`);
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+
+        } else {
+            const postDocRef = doc(db, "posts", "자유 게시판");
+            getDoc(postDocRef).then((docSnapshot) => {
+                if (docSnapshot.exists()) {
+
+                    const data = docSnapshot.data();
+                    const useData = data.contents[index]; // 숫자 넘겨 와서 받아와야함
+                    const title = useData.title;
+                    const date = useData.date;
+                    const time = useData.time;
+                    const content = useData.content;
+                    $(".title").append(`<h1>${title}</h1>`);
+                    $(".content").append(`<h2>${content}</h2>`);
+                    $(".date").append(`<h5>📅 ${date}</h5>`);
+                    $(".time").append(`<h5>🕖 ${time}</h5>`);
+                    $(".writer").append(`<h5>작성자: 이창형</h5>`);
+                } else {
+                    $(".title").append(`<h1>게시글을 불러올 수 없습니다</h1>`);
+                    $(".content").append(`<h2>게시글을 불러올 수 없습니다</h2>`);
+                    $(".date").append(`<h5>날짜와 시간을 불러올 수 없습니다</h5>`);
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+        }
         // 댓글 추가 함수
         function addComment(event) {
             event.preventDefault(); // 폼 제출의 기본 동작 방지

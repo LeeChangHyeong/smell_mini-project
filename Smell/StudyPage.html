@@ -137,14 +137,22 @@
         }
 
         $(document).ready(function () {
-            
             // 게시글 클릭 이벤트 핸들러
             $('.board').on('click', '.board-item', function () {
                 // 클릭된 게시글의 인덱스를 가져오기
                 const index = $(this).data('index');
-                // 콘솔에 인덱스 출력
+                // 클릭된 게시글이 <스터디 모집 게시판>인지 확인
+                const isStudyBoard = $(this).find('h4:first').text().includes('<스터디 모집 게시판>');
+
+                // 콘솔에 인덱스와 게시판 여부 출력
                 console.log("Clicked board item index:", index);
-                window.location.href = `BoardPage.html?index=${index}`;
+                console.log("Is Study Board:", isStudyBoard);
+
+                // BoardPage.html로 이동할 URL 생성
+                const url = `BoardPage.html?index=${index}&isStudyBoard=${isStudyBoard}`;
+
+                // BoardPage.html로 이동
+                window.location.href = url;
             });
         });
         // 정답을 보여주는 함수
