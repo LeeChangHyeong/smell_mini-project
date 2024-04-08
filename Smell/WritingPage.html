@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>글쓰기 페이지</title>
-    
+
     <style>
         /*폰트*/
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+
         * {
             font-family: "Gowun Dodum", sans-serif;
         }
@@ -35,7 +37,7 @@
             background-size: cover;
             /* 배경 이미지를 커버하는 크기로 설정 */
         }
-        
+
         .form-floating {
             margin-top: 50px;
             display: flex;
@@ -43,25 +45,29 @@
             align-items: center;
             justify-content: center;
         }
+
         .form-select {
             border-radius: 5px;
             border-color: red;
             width: 500px;
             height: 35px;
             margin-top: 20px;
-           
+
         }
+
         .form-board {
-            
+
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            
+
         }
+
         table {
             margin: auto;
         }
+
         input[type="text"] {
             border: 1.5px rgb(255, 0, 0) solid;
             width: 500px;
@@ -69,6 +75,7 @@
             border-radius: 5px;
             padding-left: 10px;
         }
+
         textarea {
             border: 1.5px rgb(255, 0, 0) solid;
             width: 500px;
@@ -77,25 +84,29 @@
             padding-left: 10px;
             padding-top: 10px;
         }
+
         .header {
             height: 30px;
         }
+
         .form-btn {
             margin-top: 20px;
             text-align: right;
         }
+
         /* 추가된 부분 */
         .form-btn button {
             width: 120px;
         }
+
         .nav {
             padding-right: 750px;
         }
     </style>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
- <script type="module">
-       
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="module">
+
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
@@ -118,37 +129,45 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-         // 폼 제출 시 실행되는 이벤트 핸들러
-         document.getElementById("writeForm").addEventListener("submit", async function (event) {
+        // 폼 제출 시 실행되는 이벤트 핸들러
+        document.getElementById("writeForm").addEventListener("submit", async function (event) {
             event.preventDefault(); // 폼 제출 기본 동작 방지
+
+            // 선택한 게시판 가져오기
+            const selectedBoard = document.getElementById("floatingSelect").value;
 
             // 현재 날짜와 시간 가져오기
             const now = new Date();
-            const year = now.getFullYear(); // 년도 가져오기
-            let month = now.getMonth() + 1; // 월 가져오기 (0부터 시작하므로 1을 더함)
-            if (month < 10) month = "0" + month; // 한 자리 숫자일 경우 앞에 0 추가
-            let day = now.getDate(); // 일 가져오기
-            if (day < 10) day = "0" + day; // 한 자리 숫자일 경우 앞에 0 추가
-            let hours = now.getHours(); // 시간 가져오기
-            if (hours < 10) hours = "0" + hours; // 한 자리 숫자일 경우 앞에 0 추가
-            let minutes = now.getMinutes(); // 분 가져오기
-            if (minutes < 10) minutes = "0" + minutes; // 한 자리 숫자일 경우 앞에 0 추가
-            let seconds = now.getSeconds(); // 초 가져오기
-            if (seconds < 10) seconds = "0" + seconds; // 한 자리 숫자일 경우 앞에 0 추가
+            const year = now.getFullYear();
+            let month = now.getMonth() + 1;
+            if (month < 10) month = "0" + month;
+            let day = now.getDate();
+            if (day < 10) day = "0" + day;
+            let hours = now.getHours();
+            if (hours < 10) hours = "0" + hours;
+            let minutes = now.getMinutes();
+            if (minutes < 10) minutes = "0" + minutes;
+            let seconds = now.getSeconds();
+            if (seconds < 10) seconds = "0" + seconds;
 
-            // 날짜와 시간 포맷팅
-            const formattedDate = `${year}-${month}-${day}`; // 날짜 포맷
-            const formattedTime = `${hours}:${minutes}:${seconds}`; // 시간 포맷
+            const formattedDate = `${year}-${month}-${day}`;
+            const formattedTime = `${hours}:${minutes}:${seconds}`;
 
-            // 제목과 내용 가져오기
             const title = document.getElementById("title").value;
             const content = document.getElementById("content").value;
 
-
             try {
-                const postRef = doc(db, "posts", "자유 게시판");
+                // 선택한 게시판에 따라 Firestore 컬렉션 결정
+                let collectionName = "";
+                if (selectedBoard === "1") {
+                    collectionName = "스터디 모집 게시판";
+                } else if (selectedBoard === "2") {
+                    collectionName = "자유 게시판";
+                } 
+
+                // 선택한 게시판의 컬렉션에 데이터 추가
+                const postRef = doc(db, "posts", collectionName);
                 await updateDoc(postRef, {
-                    // 배열에 데이터 추가하기
                     contents: arrayUnion({
                         title: title,
                         content: content,
@@ -163,35 +182,6 @@
                 alert("글 저장 중 오류가 발생하였습니다.");
             }
         });
-      
-
-        function addDataToBoard(data) {
-            data.reverse().forEach(item => {
-
-                const boardItem = `
-            <div class="board-item">
-                <h4>${item.title}</h4>
-                <p>${item.content}</p>
-                <p>${item.date} ${item.time}</p>
-            </div>`;
-                $(".board").append(boardItem);
-            });
-        }
-
-        const postDocRef = doc(db, "posts", "자유 게시판");
-        getDoc(postDocRef).then((docSnapshot) => {
-            if (docSnapshot.exists()) {
-                const data = docSnapshot.data();
-                addDataToBoard(data.contents);
-                console.log(data);
-            } else {
-                console.log("No such document!");
-            }
-        }).catch((error) => {
-            console.log("Error getting document:", error);
-        });
-
-
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 // 사용자가 로그인되어 있는 경우
@@ -212,8 +202,8 @@
                 console.log("사용자가 로그인되어 있지 않습니다.");
             }
         });
-      
-      
+
+
 
 
         // 로그아웃 버튼 클릭 이벤트 핸들러
@@ -234,7 +224,7 @@
 
     <header class="p-3 text-bg-dark">
         <!-- 컨테이너를 포함하는 div 요소로 헤더를 감싸줌 -->
-        
+
         <div class="container">
             <!-- flexbox를 사용하여 요소들을 가로로 정렬 -->
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -268,28 +258,37 @@
             <option selected>게시판 선택</option>
             <option value="1">스터디모집 게시판</option>
             <option value="2">자유 게시판</option>
-            <option value="3">Q&A 게시판</option>
         </select>
         <label for="floatingSelect"></label>
     </div>
 
-  <table>
-    <form id="writeForm">
-        <!-- 제목 입력란 -->
-        <tr><td><label for="title">제목:</label><br></td></tr>
-        <tr><td><input type="text" id="title" name="title"><br></td></tr>
+    <table>
+        <form id="writeForm">
+            <!-- 제목 입력란 -->
+            <tr>
+                <td><label for="title">제목:</label><br></td>
+            </tr>
+            <tr>
+                <td><input type="text" id="title" name="title"><br></td>
+            </tr>
 
-        <!-- 내용 입력란 -->
-        <tr><td><label for="content">내용:</label><br></td></tr>
-        <tr><td><textarea id="content" name="content"></textarea><br>
-        </td></tr>
+            <!-- 내용 입력란 -->
+            <tr>
+                <td><label for="content">내용:</label><br></td>
+            </tr>
+            <tr>
+                <td><textarea id="content" name="content"></textarea><br>
+                </td>
+            </tr>
 
-        <!-- 글쓰기 버튼 -->
-        <tr><td class="form-btn"><button type="submit" class="btn btn-outline-danger">글쓰기</button></td></tr>
-    </form>
-  </table>
-  
-    
+            <!-- 글쓰기 버튼 -->
+            <tr>
+                <td class="form-btn"><button type="submit" class="btn btn-outline-danger">글쓰기</button></td>
+            </tr>
+        </form>
+    </table>
+
+
 </body>
 
 </html>

@@ -92,11 +92,6 @@
             height: 200px;
         }
 
-        .notice_board form {
-            width: 500px;
-            /* 검색 폼의 너비를 조정 */
-        }
-
         .notice_board_text {
             text-align: center;
             /* 텍스트 가운데 정렬 */
@@ -114,6 +109,20 @@
         /* 검색어와 일치하는 부분을 강조하는 스타일 */
         .highlight {
             background-color: rgb(247, 229, 243);
+        }
+
+        .btn-group .btn {
+            width: 120px;
+            /* 버튼의 너비를 조정하세요 */
+            height: 50px;
+            /* 버튼의 높이를 조정하세요 */
+            font-size: 14px;
+            /* 버튼의 글꼴 크기를 조정하세요 */
+        }
+        .wrap{
+            display: flex;
+            /* flexbox 레이아웃을 사용하여 요소를 가운데 정렬 */
+            flex-direction: column;
         }
     </style>
 
@@ -153,11 +162,12 @@
         const db = getFirestore(app);
 
 
-        function addDataToBoard(data) {
+        function addDataToBoard(data, boardName) {
             data.reverse().forEach(item => {
 
                 const boardItem = `
             <div class="board-item">
+                <h4>${boardName}</h4> <!-- 게시판 이름 출력 -->
                 <h4>${item.title}</h4>
                 <p>${item.content}</p>
                 <p>${item.date} ${item.time}</p>
@@ -170,7 +180,7 @@
         getDoc(postDocRef).then((docSnapshot) => {
             if (docSnapshot.exists()) {
                 const data = docSnapshot.data();
-                addDataToBoard(data.contents);
+                addDataToBoard(data.contents, "<자유 게시판>");
                 console.log(data);
             } else {
                 console.log("No such document!");
@@ -178,6 +188,20 @@
         }).catch((error) => {
             console.log("Error getting document:", error);
         });
+
+        const postDocRef1 = doc(db, "posts", "스터디 모집 게시판"); // 다른 이름의 변수 사용
+        getDoc(postDocRef1).then((docSnapshot) => {
+            if (docSnapshot.exists()) {
+                const data = docSnapshot.data();
+                addDataToBoard(data.contents, "<스터디 모집 게시판>"); // 가져온 데이터를 게시판에 추가
+                console.log(data);
+            } else {
+                console.log("No such document!");
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+
 
 
         onAuthStateChanged(auth, (user) => {
@@ -200,8 +224,6 @@
                 console.log("사용자가 로그인되어 있지 않습니다.");
             }
         });
-      
-
 
         // 검색어와 일치하는 부분을 강조하는 함수
         function highlightSearchResults(searchTerm) {
@@ -338,18 +360,32 @@
                     <!-- Firestore에서 가져온 게시물 추가 부분 -->
                 </div>
             </div>
+            <div class=wrap>
+                <form class="mb-3">
+                    <input id="searchInput" type="search" class="form-control" placeholder="검색어를 입력하세요">
+                </form>
 
-            <form class="mb-3">
-                <input id="searchInput" type="search" class="form-control" placeholder="검색어를 입력하세요">
-            </form>
+                <div class="btn-group d-flex justify-content-center" role="group" aria-label="Board Selection">
+                    <button type="button" class="btn btn-danger btn-sm me-2" onclick="toggleBoard('자유 게시판')">자유
+                        게시판</button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="toggleBoard('스터디 모집 게시판')">스터디 모집
+                        게시판</button>
+                </div>
+            </div>
         </div>
         <br>
         <br><br><br>
         <div class="position-fixed bottom-0 end-0 p-3">
-            <a href="WritingPageTest.html" class="btn btn-outline-danger">글쓰기</a>
+            <a href="WritingPage.html" class="btn btn-outline-danger">글쓰기</a>
         </div>
     </div>
 
+    <script>
+        function toggleBoard(boardName) {
+            $('.board-item').hide();
+            $(`.board-item:contains("${boardName}")`).show();
+        }
+    </script>
 
 </body>
 
