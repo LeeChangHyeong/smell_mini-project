@@ -299,7 +299,7 @@
                     time: formattedTime
                 }).then(() => {
                     console.log("시간이 Firestore에 성공적으로 업데이트되었습니다.");
-                    
+
                     document.getElementById("StudyTime").textContent = formattedTime;
                 }).catch((error) => {
                     console.error("시간 업데이트 에러:", error);
@@ -307,6 +307,63 @@
             } else {
                 console.log("사용자가 로그인되어 있지 않습니다.");
             }
+            const usersCollectionRef = collection(db, "users");
+            getDocs(usersCollectionRef)
+                .then((querySnapshot) => {
+                    let timeArray = [];
+                    querySnapshot.forEach((doc) => {
+                        const userData = doc.data();
+                        timeArray.push({
+                            time: userData.time,
+                            uid: doc.id
+                        });
+                    });
+                    if (timeArray.length > 0) {
+
+                        timeArray.sort((a, b) => {
+                            if (a.time > b.time) return -1;
+                            if (a.time < b.time) return 1;
+                            return 0;
+                        });
+                        let rank = 1;
+
+                        timeArray.forEach((item, index) => { // index 추가
+                            const userData = querySnapshot.docs.find((doc) => doc.id === item.uid).data();
+                            console.log(userData.name, " => ", userData.time);
+                            console.log(item.uid); // uid
+                            const userDocRef = doc(db, "users", item.uid); // item.uid 로 변경
+                            const updatedRank = index + 1; // 순위 계산
+                            console.log(updatedRank);
+                            updateDoc(userDocRef, {
+                                rank: updatedRank // 업데이트된 순위 전달
+                            }).then(() => {
+                                console.log("랭킹이 Firestore에 성공적으로 업데이트되었습니다.");
+                            }).catch((error) => {
+                                console.error("랭킹 업데이트 에러:", error);
+                            });
+                        });
+
+                        const userDocRef = doc(db, "users", user.uid);
+                        getDoc(userDocRef).then((docSnapshot) => {
+                            if (docSnapshot.exists()) {
+                                const userData = docSnapshot.data();
+                                
+                                document.getElementById("ranking").textContent = userData.rank;
+                            } else {
+                                console.log("해당 사용자 정보가 없습니다.");
+                            }
+                        }).catch((error) => {
+                            console.error("사용자 정보 가져오기 에러:", error);
+                        });
+                        
+                    } else {
+                        console.log("사용자 데이터가 없습니다.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("모든 사용자의 정보 가져오기 에러:", error);
+                });
+
         }
 
         function updateTime() {
@@ -347,11 +404,11 @@
                 getDoc(userDocRef).then((docSnapshot) => {
                     if (docSnapshot.exists()) {
                         const userData = docSnapshot.data();
-                        
+
                         document.getElementById("username").innerText = userData.name;
                         document.getElementById("totalTime").textContent = userData.time;
                         document.getElementById("StudyTime").textContent = userData.time;
-                       
+
                         const logoParagraph = document.querySelector('.logo p');
                         logoParagraph.textContent = userData.name + '님 오늘도 화이팅!';
                         totalTime = timeToMilliseconds(userData.time);
@@ -395,6 +452,7 @@
                                     rank: updatedRank // 업데이트된 순위 전달
                                 }).then(() => {
                                     console.log("랭킹이 Firestore에 성공적으로 업데이트되었습니다.");
+
                                 }).catch((error) => {
                                     console.error("랭킹 업데이트 에러:", error);
                                 });
