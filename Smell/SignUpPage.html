@@ -148,12 +148,14 @@
             let name = $('#name').val();
             let email = $('#email').val();
             let password = $('#password').val();
+            let time = "00:00:00";
 
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 await setDoc(doc(db, "users", userCredential.user.uid), { // 문서 이름을 사용자 UID로 설정
                     name: name,
-                    email: email
+                    email: email,
+                    time: time
                 });
                 alert('회원 가입 완료!');
                 window.location.reload(); // 페이지 새로고침
