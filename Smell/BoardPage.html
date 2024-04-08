@@ -78,6 +78,7 @@
         }
     </style>
     <script type="module">
+
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
@@ -97,10 +98,18 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        // URL에서 쿼리 문자열 가져오기
+        const queryString = window.location.search;
+        // URL 쿼리 문자열 파싱하여 객체로 변환
+        const urlParams = new URLSearchParams(queryString);
+        // index 매개변수의 값을 가져오기
+        const index = urlParams.get('index');
+        // index를 사용하여 해당 데이터를 가져와서 사용
 
         const postDocRef = doc(db, "posts", "자유 게시판");
         getDoc(postDocRef).then((docSnapshot) => {
             if (docSnapshot.exists()) {
+
                 const data = docSnapshot.data();
                 const useData = data.contents[4]; // 숫자 넘겨 와서 받아와야함
                 const title = useData.title;

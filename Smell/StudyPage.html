@@ -137,14 +137,16 @@
         }
 
         $(document).ready(function () {
-    // 게시글 클릭 이벤트 핸들러
-    $('.board').on('click', '.board-item', function () {
-        // 클릭된 게시글의 인덱스를 가져오기
-        const index = $(this).data('index');
-        // 콘솔에 인덱스 출력
-        console.log("Clicked board item index:", index);
-    });
-});
+            
+            // 게시글 클릭 이벤트 핸들러
+            $('.board').on('click', '.board-item', function () {
+                // 클릭된 게시글의 인덱스를 가져오기
+                const index = $(this).data('index');
+                // 콘솔에 인덱스 출력
+                console.log("Clicked board item index:", index);
+                window.location.href = `BoardPage.html?index=${index}`;
+            });
+        });
         // 정답을 보여주는 함수
         function showAnswer() {
             // 정답 요소 가져오기
@@ -180,18 +182,18 @@
 
 
         function addDataToBoard(data, boardName) {
-    data.reverse().forEach((item, index) => { // forEach 메서드의 두 번째 매개변수로 현재 인덱스를 받음
-        const originalIndex = data.length - 1 - index; // 원래 배열에서의 인덱스 계산
-        const boardItem = `
+            data.reverse().forEach((item, index) => { // forEach 메서드의 두 번째 매개변수로 현재 인덱스를 받음
+                const originalIndex = data.length - 1 - index; // 원래 배열에서의 인덱스 계산
+                const boardItem = `
             <div class="board-item" data-index="${originalIndex}">
                 <h4>${boardName}</h4>
                 <h4>${item.title}</h4>
                 <p>${item.content}</p>
                 <p>${item.date} ${item.time}</p>
             </div>`;
-        $(".board").append(boardItem);
-    });
-}
+                $(".board").append(boardItem);
+            });
+        }
 
         const postDocRef = doc(db, "posts", "자유 게시판");
         getDoc(postDocRef).then((docSnapshot) => {
