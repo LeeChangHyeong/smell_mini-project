@@ -137,6 +137,7 @@
         $(document).ready(function () {
             fetchDataFromFirestore();
         });
+
         $(document).ready(function () {
             // mypage, sutdy 상단바 클릭 이벤트 핸들러
             $("a[href='#']").click(function (e) {
@@ -152,16 +153,10 @@
                 }
             });
         });
-
-        // YouTube 동영상 ID를 설정하는 함수
-        function setYouTubeVideo(videoId) {
-            var iframe = document.getElementById("youtubePlayer");
-            iframe.src = "https://www.youtube.com/embed/" + videoId;
-        }
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"; // firestore 모듈 추가
         // Firebase 구성 정보 설정
         const firebaseConfig = {
             apiKey: "AIzaSyB-eyQJ5vsYV1VPXbhXvUu0Bm5Do0AfGmY",
@@ -172,12 +167,35 @@
             appId: "1:321477657279:web:48bec02f302e4b7bfb7c0a",
             measurementId: "G-78FKFTNFZ4"
         };
-
         // Firebase 인스턴스 초기화
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        function fetchDataFromFirestore() {
+            const usersRef = collection(db, 'users');
+            const q = query(usersRef, where('rank', '==', 1));
+
+            getDocs(q).then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const userName = doc.data().name;
+                    $('#rankingUserName').text(userName);
+                });
+            }).catch((error) => {
+                console.error('Error getting documents: ', error);
+            });
+        }
+
+        // YouTube 동영상 ID를 설정하는 함수
+        function setYouTubeVideo(videoId) {
+            var iframe = document.getElementById("youtubePlayer");
+            iframe.src = "https://www.youtube.com/embed/" + videoId;
+        }
+
+
 
         $(document).ready(function () {
+
             let url = "http://spartacodingclub.shop/sparta_api/weather/seoul";  // 서울 날씨 API 요청을 위한 URL 
             // 해당 URL로 GET 요청을 보내고, 받은 응답을 JSON 형식으로 변환
             fetch(url).then(res => res.json()).then(data => {
@@ -340,7 +358,7 @@
         </div>
         <div class="musicReasonAndRanking">
             <p id="musicReason"></p>
-            <p>오늘의 랭킹 1등은 7Song사이다 🏆</p>
+            <p>오늘의 랭킹 1등은 <span id="rankingUserName"></span> 🏆</p>
         </div>
     </div>
 
