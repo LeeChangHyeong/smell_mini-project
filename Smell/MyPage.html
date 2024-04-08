@@ -355,7 +355,6 @@
                             timeArray.push({
                                 time: userData.time,
                                 uid: doc.id
-
                             });
                         });
                         if (timeArray.length > 0) {
@@ -365,11 +364,23 @@
                                 if (a.time < b.time) return 1;
                                 return 0;
                             });
+                            let rank = 1;
 
-                            timeArray.forEach((item) => {
-                                const userData = querySnapshot.docs.find((doc) => doc.id === item.uid).data();
-                                console.log(userData.name, " => ", userData.time);
-                            });
+                            timeArray.forEach((item, index) => { // index 추가
+    const userData = querySnapshot.docs.find((doc) => doc.id === item.uid).data();
+    console.log(userData.name, " => ", userData.time);
+    console.log(item.uid); // uid
+    const userDocRef = doc(db, "users", item.uid); // item.uid 로 변경
+    const updatedRank = index + 1; // 순위 계산
+    console.log(updatedRank);
+    updateDoc(userDocRef, {
+        rank: updatedRank // 업데이트된 순위 전달
+    }).then(() => {
+        console.log("랭킹이 Firestore에 성공적으로 업데이트되었습니다.");
+    }).catch((error) => {
+        console.error("랭킹 업데이트 에러:", error);
+    });
+});
                         } else {
                             console.log("사용자 데이터가 없습니다.");
                         }
