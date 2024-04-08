@@ -298,8 +298,9 @@
                 updateDoc(userDocRef, {
                     time: formattedTime
                 }).then(() => {
-
                     console.log("시간이 Firestore에 성공적으로 업데이트되었습니다.");
+                    
+                    document.getElementById("StudyTime").textContent = formattedTime;
                 }).catch((error) => {
                     console.error("시간 업데이트 에러:", error);
                 });
