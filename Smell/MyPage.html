@@ -338,11 +338,11 @@
                         querySnapshot.forEach((doc) => {
                             const userData = doc.data(); 
                             timeArray.push({
-                                time: new Date(userData.time), 
+                                time: userData.time, 
                                 uid: doc.id
+                                
                             });
-                        });
-        
+                        }); 
                         if (timeArray.length > 0) {
                             
                             timeArray.sort((a, b) => {
