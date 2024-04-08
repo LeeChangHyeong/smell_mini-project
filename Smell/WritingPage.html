@@ -92,51 +92,204 @@
             padding-right: 750px;
         }
     </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script type="module">
+       
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, getDocs, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        import { collection } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        // Firebase 구성 정보 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyB-eyQJ5vsYV1VPXbhXvUu0Bm5Do0AfGmY",
+            authDomain: "smell-19e9a.firebaseapp.com",
+            projectId: "smell-19e9a",
+            storageBucket: "smell-19e9a.appspot.com",
+            messagingSenderId: "321477657279",
+            appId: "1:321477657279:web:48bec02f302e4b7bfb7c0a",
+            measurementId: "G-78FKFTNFZ4"
+        };
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+         // 폼 제출 시 실행되는 이벤트 핸들러
+         document.getElementById("writeForm").addEventListener("submit", async function (event) {
+            event.preventDefault(); // 폼 제출 기본 동작 방지
+
+            // 현재 날짜와 시간 가져오기
+            const now = new Date();
+            const year = now.getFullYear(); // 년도 가져오기
+            let month = now.getMonth() + 1; // 월 가져오기 (0부터 시작하므로 1을 더함)
+            if (month < 10) month = "0" + month; // 한 자리 숫자일 경우 앞에 0 추가
+            let day = now.getDate(); // 일 가져오기
+            if (day < 10) day = "0" + day; // 한 자리 숫자일 경우 앞에 0 추가
+            let hours = now.getHours(); // 시간 가져오기
+            if (hours < 10) hours = "0" + hours; // 한 자리 숫자일 경우 앞에 0 추가
+            let minutes = now.getMinutes(); // 분 가져오기
+            if (minutes < 10) minutes = "0" + minutes; // 한 자리 숫자일 경우 앞에 0 추가
+            let seconds = now.getSeconds(); // 초 가져오기
+            if (seconds < 10) seconds = "0" + seconds; // 한 자리 숫자일 경우 앞에 0 추가
+
+            // 날짜와 시간 포맷팅
+            const formattedDate = `${year}-${month}-${day}`; // 날짜 포맷
+            const formattedTime = `${hours}:${minutes}:${seconds}`; // 시간 포맷
+
+            // 제목과 내용 가져오기
+            const title = document.getElementById("title").value;
+            const content = document.getElementById("content").value;
+
+
+            try {
+                const postRef = doc(db, "posts", "자유 게시판");
+                await updateDoc(postRef, {
+                    // 배열에 데이터 추가하기
+                    contents: arrayUnion({
+                        title: title,
+                        content: content,
+                        date: formattedDate,
+                        time: formattedTime
+                    })
+                });
+                console.log("Document successfully updated!");
+                alert("글이 성공적으로 저장되었습니다.");
+            } catch (error) {
+                console.error("Error updating document: ", error);
+                alert("글 저장 중 오류가 발생하였습니다.");
+            }
+        });
+      
+
+        function addDataToBoard(data) {
+            data.reverse().forEach(item => {
+
+                const boardItem = `
+            <div class="board-item">
+                <h4>${item.title}</h4>
+                <p>${item.content}</p>
+                <p>${item.date} ${item.time}</p>
+            </div>`;
+                $(".board").append(boardItem);
+            });
+        }
+
+        const postDocRef = doc(db, "posts", "자유 게시판");
+        getDoc(postDocRef).then((docSnapshot) => {
+            if (docSnapshot.exists()) {
+                const data = docSnapshot.data();
+                addDataToBoard(data.contents);
+                console.log(data);
+            } else {
+                console.log("No such document!");
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // 사용자가 로그인되어 있는 경우
+                //사용자 정보 가져오기
+                const userDocRef = doc(db, "users", user.uid); // 사용자의 UID를 이용하여 문서 참조 생성
+                getDoc(userDocRef).then((docSnapshot) => {
+                    if (docSnapshot.exists()) {
+                        const userData = docSnapshot.data();
+                        // 사용자 정보에서 이름 필드 출력
+                        console.log("사용자 이름:", userData.name);
+                    } else {
+                        console.log("해당 사용자 정보가 없습니다.");
+                    }
+                }).catch((error) => {
+                    console.error("사용자 정보 가져오기 에러:", error);
+                });
+            } else {
+                console.log("사용자가 로그인되어 있지 않습니다.");
+            }
+        });
+      
+      
+
+
+        // 로그아웃 버튼 클릭 이벤트 핸들러
+        $("#logoutbtn").click(function () {
+            // Firebase에서 로그아웃
+            auth.signOut().then(() => {
+                // 로그아웃 성공한 경우, 페이지를 로그인 페이지로 이동
+                window.location.href = "LoginPage.html"; // LoginPage.html은 실제 로그인 페이지 파일명에 맞게 변경해야 합니다.
+            }).catch((error) => {
+                // 로그아웃 실패한 경우, 콘솔에 오류 메시지 출력
+                console.error("로그아웃 에러:", error);
+            });
+        });
+    </script>
 </head>
+
 <body>
-    <!-- 메뉴 목록 -->
-    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="MyPage.html" class="nav-link px-2 text-secondary">mypage</a></li>
-        <li><a href="StudyPage.html" class="nav-link px-2 text-secondary">study</a></li>
-        <li><a href="BoardPage.html" class="nav-link px-2 text-secondary">notice board</a></li>
-    </ul>
+
+    <header class="p-3 text-bg-dark">
+        <!-- 컨테이너를 포함하는 div 요소로 헤더를 감싸줌 -->
+        
+        <div class="container">
+            <!-- flexbox를 사용하여 요소들을 가로로 정렬 -->
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <!-- 로고 링크, 홈으로 이동하는 링크로 설정-->
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+                <!-- 메뉴 목록 -->
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="MyPage.html" class="nav-link px-2 text-secondary">mypage</a></li>
+                    <li><a href="StudyPage.html" class="nav-link px-2 text-secondary">study</a></li>
+                    <li><a href="BoardPage.html" class="nav-link px-2 text-secondary">notice board</a></li>
+                </ul>
+
+                <!-- 로그아웃 버튼 -->
+                <div class="text-end">
+                    <button id="logoutbtn" type="button" class="btn btn-outline-secondary">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
 
     <div class="title_logo">
         <h1>smell</h1>
     </div>
 
-    <div class="form-board">
-        <form action="board.html" method="post">
-            <table>
-                <div class="form-floating">
-                    <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                        <option selected>게시판 선택</option>
-                        <option value="1">스터디모집 게시판</option>
-                        <option value="2">자유 게시판</option>
-                        <option value="3">Q&A 게시판</option>
-                    </select>
-                    <label for="floatingSelect"></label>
-                </div>
-                <div class="form-brd">
-                    <tr>
-                        <td class="header">제목</td>
-                    </tr>
-                    <tr>
-                        <td><input type="text" placeholder="제목을 입력하세요" name="title"></td>
-                    </tr>
-                    <tr>
-                        <td class="header">내용</td>
-                    </tr>
-                    <tr>
-                        <td><textarea placeholder="내용을 입력하세요" name="detail"></textarea></td>
-                    </tr>
-                    <tr>
-                        <!-- 수정된 부분 -->
-                        <td class="form-btn"><button type="button" class="btn btn-outline-danger" onclick="alert('작성 완료!')">글쓰기</button></td>
-                    </tr>
-                </div>
-            </table>
-        </form>
+    <div class="form-floating">
+        <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+            <option selected>게시판 선택</option>
+            <option value="1">스터디모집 게시판</option>
+            <option value="2">자유 게시판</option>
+            <option value="3">Q&A 게시판</option>
+        </select>
+        <label for="floatingSelect"></label>
     </div>
+
+  <table>
+    <form id="writeForm">
+        <!-- 제목 입력란 -->
+        <tr><td><label for="title">제목:</label><br></td></tr>
+        <tr><td><input type="text" id="title" name="title"><br></td></tr>
+
+        <!-- 내용 입력란 -->
+        <tr><td><label for="content">내용:</label><br></td></tr>
+        <tr><td><textarea id="content" name="content"></textarea><br>
+        </td></tr>
+
+        <!-- 글쓰기 버튼 -->
+        <tr><td class="form-btn"><button type="submit" class="btn btn-outline-danger">글쓰기</button></td></tr>
+    </form>
+  </table>
+  
+    
 </body>
+
 </html>
