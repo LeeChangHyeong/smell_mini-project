@@ -157,6 +157,11 @@
                 console.error("로그아웃 에러:", error);
             });
         });
+        let url = "http://spartacodingclub.shop/sparta_api/weather/seoul";
+        fetch(url).then(res => res.json()).then(data => {
+            let temp = data['temp'];
+            $('#temperature').text(temp);
+        })
 
     </script>
 </head>
