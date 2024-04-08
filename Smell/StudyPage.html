@@ -148,8 +148,11 @@
                 console.log("Clicked board item index:", index);
                 console.log("Is Study Board:", isStudyBoard);
 
+                // 넘어갈 게시판 이름 설정
+                const boardName = isStudyBoard ? "스터디 모집 게시판" : "자유 게시판";
+
                 // BoardPage.html로 이동할 URL 생성
-                const url = `BoardPage.html?index=${index}&isStudyBoard=${isStudyBoard}`;
+                const url = `BoardPage.html?index=${index}&boardName=${boardName}`;
 
                 // BoardPage.html로 이동
                 window.location.href = url;
