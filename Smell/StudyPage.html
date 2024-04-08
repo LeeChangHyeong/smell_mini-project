@@ -119,15 +119,32 @@
             font-size: 14px;
             /* 버튼의 글꼴 크기를 조정하세요 */
         }
-        .wrap{
+
+        .wrap {
             display: flex;
             /* flexbox 레이아웃을 사용하여 요소를 가운데 정렬 */
             flex-direction: column;
         }
     </style>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"> </script>
     <script type="module">
+
+        // 게시판 변경 함수
+        function toggleBoard(boardName) {
+            $('.board-item').hide();
+            $(`.board-item:contains("${boardName}")`).show();
+        }
+
+        $(document).ready(function () {
+    // 게시글 클릭 이벤트 핸들러
+    $('.board').on('click', '.board-item', function () {
+        // 클릭된 게시글의 인덱스를 가져오기
+        const index = $(this).data('index');
+        // 콘솔에 인덱스 출력
+        console.log("Clicked board item index:", index);
+    });
+});
         // 정답을 보여주는 함수
         function showAnswer() {
             // 정답 요소 가져오기
@@ -163,18 +180,17 @@
 
 
         function addDataToBoard(data, boardName) {
-            data.reverse().forEach(item => {
-
-                const boardItem = `
-            <div class="board-item">
-                <h4>${boardName}</h4> <!-- 게시판 이름 출력 -->
+    data.reverse().forEach((item, index) => { // forEach 메서드의 두 번째 매개변수로 현재 인덱스를 받음
+        const boardItem = `
+            <div class="board-item" data-index="${index}">
+                <h4>${boardName}</h4>
                 <h4>${item.title}</h4>
                 <p>${item.content}</p>
                 <p>${item.date} ${item.time}</p>
             </div>`;
-                $(".board").append(boardItem);
-            });
-        }
+        $(".board").append(boardItem);
+    });
+}
 
         const postDocRef = doc(db, "posts", "자유 게시판");
         getDoc(postDocRef).then((docSnapshot) => {
