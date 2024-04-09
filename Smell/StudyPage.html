@@ -125,6 +125,17 @@
             /* flexbox 레이아웃을 사용하여 요소를 가운데 정렬 */
             flex-direction: column;
         }
+
+        .position {
+            width: 300px;
+        }
+        
+        .writingButton {
+            width: 300px;
+            margin-top: 10px;
+        }
+
+        
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"> </script>
@@ -410,13 +421,14 @@
                     <button type="button" class="btn btn-danger btn-sm" onclick="toggleBoard('스터디 모집 게시판')">스터디 모집
                         게시판</button>
                 </div>
+
+                <div class="writingButton">
+                    <a href="WritingPage.html" class="btn btn-outline-danger writingButton">글쓰기</a>
+                </div>
             </div>
         </div>
         <br>
         <br><br><br>
-        <div class="position-fixed bottom-0 end-0 p-3">
-            <a href="WritingPage.html" class="btn btn-outline-danger">글쓰기</a>
-        </div>
     </div>
 
     <script>
