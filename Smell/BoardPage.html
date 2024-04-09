@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,9 +14,11 @@
     <style>
         /*폰트*/
         @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+
         * {
             font-family: "Gowun Dodum", sans-serif;
         }
+
         /*상단의 로고*/
         .title_logo {
             height: 150px;
@@ -35,6 +38,7 @@
             background-size: cover;
             /* 배경 이미지를 커버하는 크기로 설정 */
         }
+
         .title {
             display: flex;
             /* flexbox 레이아웃을 사용하여 요소를 가운데 정렬 */
@@ -45,22 +49,27 @@
             justify-content: center;
             padding: 50px;
         }
+
         .writer {
             text-align: right;
             padding: 0px 40px 0px 0px;
         }
+
         .date {
             text-align: right;
             padding: 0px 40px 0px 0px;
         }
+
         .time {
             text-align: right;
             padding: 0px 40px 10px 0px;
         }
+
         .content {
             text-align: left;
             padding: 10px 50px 30px 50px;
         }
+
         .card-footer {
             padding: 20px;
         }
@@ -69,7 +78,7 @@
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc,getDoc, getDocs, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, getDocs, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         // Firebase 구성 정보 설정
         const firebaseConfig = {
             apiKey: "AIzaSyB-eyQJ5vsYV1VPXbhXvUu0Bm5Do0AfGmY",
@@ -94,7 +103,6 @@
         const boardName = urlParams.get('boardName');
         console.log(boardName);
         const postDocRef = doc(db, "posts", boardName);
-        
         getDoc(postDocRef).then((docSnapshot) => {
             if (docSnapshot.exists()) {
                 const data = docSnapshot.data();
@@ -103,13 +111,31 @@
                 const date = useData.date;
                 const time = useData.time;
                 const content = useData.content;
-                const name = useData.writer;
-                
+                const comments = useData.comments;
+                const writer = useData.writer;
+                console.log(time);
+                console.log(comments);
                 $(".title").append(`<h1>${title}</h1>`);
                 $(".content").append(`<h2>${content}</h2>`);
                 $(".date").append(`<h5>📅 ${date}</h5>`);
                 $(".time").append(`<h5>🕖 ${time}</h5>`);
-                $(".writer").append(`<h5>작성자: ${name}</h5>`);
+                $(".writer").append(`<h5>작성자: ${writer}</h5>`);
+                const commentsDiv = document.querySelector('.comments');
+                comments.forEach(comment => {
+                    const newCommentDiv = document.createElement('div');
+                    console.log(comment.name);
+                    newCommentDiv.innerHTML = `
+                <br>
+                <p style="font-weight: bolder;">${comment.name}</p>
+                <div>${comment.comment}</div>
+                <br>
+                <p style="font-size: 10px; font-weight: lighter;">${comment.date}</p>
+                <hr>
+            `;
+                    commentsDiv.appendChild(newCommentDiv);
+                });
+
+
             } else {
                 $(".title").append(`<h1>게시글을 불러올 수 없습니다</h1>`);
                 $(".content").append(`<h2>게시글을 불러올 수 없습니다</h2>`);
@@ -119,64 +145,77 @@
             console.log("Error getting document:", error);
         });
         async function addComment(event) {
-            event.preventDefault(); // 폼 제출의 기본 동작 방지
-            const comment = document.getElementById('commentInput').value.trim(); // 입력된 댓글 내용 가져오기
-            if (comment !== '') { // 댓글이 비어 있지 않은 경우에만 실행
-                const commentsDiv = document.querySelector('.comments'); // 댓글을 표시할 div 요소 가져오기
-                const newCommentDiv = document.createElement('div'); // 새로운 댓글을 담을 div 요소 생성
-                // 현재 시간을 구하는 함수 호출하여 현재 시간을 가져와서 표시
-                const currentTime = getCurrentDateTime();
-                newCommentDiv.innerHTML = `
-    <br>
-    <p style="font-weight: bolder;">댓글 작성자</p>
-    <div>${comment}</div>
-    <br>
-    <p style="font-size: 10px; font-weight: lighter;">${currentTime}</p>
-    <hr>
-`; // 새로운 댓글 내용을 HTML로 설정
-                commentsDiv.appendChild(newCommentDiv); // 새로운 댓글을 표시할 div에 추가
-                document.getElementById('commentForm').reset(); // 폼
-                const postRef = doc(db, "posts", boardName);
-                const postDocRef = doc(db, "posts", boardName); // 게시물의 전체 문서 참조
-try {
-    const docSnapshot = await getDoc(postDocRef);
-    if (docSnapshot.exists()) {
-        const postData = docSnapshot.data();
-        console.log(postData);
-        const currentContents = postData.contents[index];
-        console.log(currentContents);
-        // 해당 인덱스의 게시물 내용을 가져옵니다.
-        if (currentContents) {
-            // 새로운 댓글 객체 생성
-            const newComment = {
-                name: "Firestore DB의 이름",
-                date: "날짜",
-                time: "시간",
-                comment: comment
-            };
-            console.log(currentContents.comments);
-            // 현재 댓글 배열 가져오기
-            let currentComments = currentContents.comments || [];
-            console.log(currentContents.comments);
-            currentComments.push(newComment);
-            console.log(currentComments);
-            currentContents.comments = currentComments;
-            console.log(currentContents);
-            // 문서 업데이트
-            await setDoc(postDocRef, { contents: postData.contents });
-            console.log("댓글이 성공적으로 추가되었습니다.");
-            alert("댓글이 성공적으로 추가되었습니다.");
-        } else {
-            console.log("해당 인덱스의 게시물이 존재하지 않습니다.");
-        }
-    } else {
-        console.log("해당 게시물이 존재하지 않습니다.");
-    }
-} catch (error) {
-    console.error("댓글 추가 에러:", error);
-}
+    event.preventDefault(); // 폼 제출의 기본 동작 방지
+    const comment = document.getElementById('commentInput').value.trim(); // 입력된 댓글 내용 가져오기
+    if (comment !== '') { // 댓글이 비어 있지 않은 경우에만 실행
+        const commentsDiv = document.querySelector('.comments'); // 댓글을 표시할 div 요소 가져오기
+        const newCommentDiv = document.createElement('div'); // 새로운 댓글을 담을 div 요소 생성
+        // 현재 시간을 구하는 함수 호출하여 현재 시간을 가져와서 표시
+        const currentTime = getCurrentDateTime();
+        let userName = ""; // 변수 선언
+
+        // 현재 로그인된 사용자의 이름 가져오기
+        const user = auth.currentUser;
+        if (user) {
+            const userDocRef = doc(db, "users", user.uid); // 사용자의 UID를 이용하여 문서 참조 
+            try {
+                const docSnapshot = await getDoc(userDocRef);
+                if (docSnapshot.exists()) {
+                    const userData = docSnapshot.data();
+                    userName = userData.name; // 사용자 이름 할당
+                }
+            } catch (error) {
+                console.error("사용자 정보 가져오기 오류:", error);
             }
         }
+
+        newCommentDiv.innerHTML = `
+            <br>
+            <p style="font-weight: bolder;">${userName}</p>
+            <div>${comment}</div>
+            <br>
+            <p style="font-size: 10px; font-weight: lighter;">${currentTime}</p>
+            <hr>
+        `;
+        commentsDiv.appendChild(newCommentDiv); // 새로운 댓글을 표시할 div에 추가
+
+        document.getElementById('commentForm').reset(); // 폼 리셋
+
+        // 댓글 데이터 Firestore에 저장
+        const postDocRef = doc(db, "posts", boardName); // 게시물의 전체 문서 참조
+        try {
+            const docSnapshot = await getDoc(postDocRef);
+            if (docSnapshot.exists()) {
+                const postData = docSnapshot.data();
+                const currentContents = postData.contents[index];
+                if (currentContents) {
+                    // 새로운 댓글 객체 생성
+                    const newComment = {
+                        name: userName,
+                        date: currentTime,
+                        comment: comment
+                    };
+                    // 현재 댓글 배열 가져오기
+                    let currentComments = currentContents.comments || [];
+                    currentComments.push(newComment);
+                    currentContents.comments = currentComments;
+                    // 문서 업데이트
+                    await setDoc(postDocRef, { contents: postData.contents });
+                    console.log("댓글이 성공적으로 추가되었습니다.");
+                    alert("댓글이 성공적으로 추가되었습니다.");
+                } else {
+                    console.log("해당 인덱스의 게시물이 존재하지 않습니다.");
+                }
+            } else {
+                console.log("해당 게시물이 존재하지 않습니다.");
+            }
+        } catch (error) {
+            console.error("댓글 추가 에러:", error);
+        }
+    }
+}
+
+ 
         // 현재 날짜와 시간을 문자열로 반환하는 함수
         function getCurrentDateTime() {
             const now = new Date();
@@ -192,6 +231,7 @@ try {
         document.getElementById('commentForm').addEventListener('submit', addComment);
     </script>
 </head>
+
 <body>
     <header class="p-3 text-bg-dark">
         <!-- 컨테이너를 포함하는 div 요소로 헤더를 감싸줌 -->
@@ -246,4 +286,5 @@ try {
         </div>
     </div>
 </body>
+
 </html>
