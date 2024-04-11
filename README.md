@@ -1,42 +1,31 @@
-# smell_mini-project
 
-# :iphone: 모밍 (Moment + ing)
-모밍은 사용자 위치의 기상 상황에 따라 배경이 변하고 순간의 감정을 기록할 수 있는 앱 입니다.<br/>
-![image](https://github.com/LeeChangHyeong/Moming/assets/71262367/40026fd1-2139-42c5-983e-dc37d8c024fe)
+# 🦨 smell (study + melody)
+smell 은 날씨에 따른 음악 추천과 회원가입/로그인, 시간 측정(공부 및 휴식), 개인랭킹 제공하는 스터디 플랫폼입니다.<br/>
+<br>
+![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/f7af015c-5145-47d9-a132-6708e213ff18)
+
 
 
 ## 👨🏻‍💻 Tech Stack
--   **언어**  : Swift
--   **Deployment Target**: iOS 15
--   **UI**: UIKit, CodeBase(SnapKit)
--   **아키텍처**  : MVVM
--   **비동기 처리**  : RxSwift, RxCocoa
--   **네트워킹**  : Alamofire
+-   **언어**  : JavaScript
+-   **UI**: CSS, HTML
 -   **데이터베이스** : FireBase
 
 ## :pushpin: Features
-- 일상 속 친숙한 배경들이 날씨와 시간에 따라 변경되는 것을 즐기며 순간의 감정을 기록할 수 있어요.
-- 기록한 순간들은 삭제하기 전까지 앱 내의 갤러리에서 사라지지 않고 기록한 순간의 날씨, 시간, 위치, 내용 등을 모두 다시 볼 수 있어요.
-- 평온한 배경음악을 들으며 마음 속 안정을 취해보세요.
+
+- 날씨 정보에 따라 오늘의 음악을 추천해 줍니다.
+- 회원가입 후 로그인을 진행하면 개인 공부 시간을 측정해 줍니다.
+- 개인 공부 시간을 토대로 전체 랭킹을 제공해 줍니다.
+- 게시글을 작성하여 스터디 참여 및 모집을 할 수 있습니다. 
 
 ## :fireworks: Screenshots
-<img src="https://github.com/LeeChangHyeong/Moming/assets/71262367/44ea6181-d141-4976-8649-6324b77d3a3c" width="240" height="500"/>
-<img src="https://github.com/LeeChangHyeong/Moming/assets/71262367/05fa4461-5651-4133-95e1-63768798277a" width="240" height="500"/>
-<img src="https://github.com/LeeChangHyeong/Moming/assets/71262367/f7b7a51d-0c7c-469c-89ff-04d9aaeb5777" width="240" height="500"/>
-
-## 💻 Development Environment
-
-- iOS 15
-- Swift 5
-- Xcode 15.1
-- MacBook Pro 13' - M1
-
-## :people_hugging: Authors
-Dev
-- [@이창형](https://github.com/LeeChangHyeong)
-
-Design
-- 기윤수
-
-## 🗂️ AppStore
-https://apps.apple.com/kr/app/%EB%AA%A8%EB%B0%8D/id6475660427
+### SignUp Page
+![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/73119741-4afe-4bfb-8f51-aa5cacc7a5b6)
+### LogIn Page
+![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/a35e202d-81ab-46d3-9482-100a4ccf1b56)
+### Study Page
+![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/cad201c9-83df-4a60-9f14-c8b247029009)
+### My Page
+![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/a98b6375-249b-4b29-ac82-b1dfdf5d71cb)
+### Borad Page
+![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/f98a3bd6-9a7a-4fd2-9163-2747c140eb0d)
