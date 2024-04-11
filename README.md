@@ -33,8 +33,14 @@ https://leenayoung240.github.io/smell_mini-project/
 ### LogIn Page
 ![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/a35e202d-81ab-46d3-9482-100a4ccf1b56)
 ### Study Page
-![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/cad201c9-83df-4a60-9f14-c8b247029009)
+![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/eb266a7f-42c9-4d3a-a704-7bc741bf8aaa)
+
 ### My Page
 ![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/a98b6375-249b-4b29-ac82-b1dfdf5d71cb)
 ### Borad Page
-![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/f98a3bd6-9a7a-4fd2-9163-2747c140eb0d)
+![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/c07e4e01-92da-475e-b7be-59906f4287e6)
+
+### DB
+![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/f0c33cf1-1336-452d-9937-a653076112ab)
+
+- DB 일부
