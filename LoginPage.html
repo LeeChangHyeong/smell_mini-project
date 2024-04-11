@@ -197,20 +197,21 @@
 
         $(document).ready(function () {
 
-            let url = "http://spartacodingclub.shop/sparta_api/weather/seoul";  // 서울 날씨 API 요청을 위한 URL 
+            let url = "https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=d410e09092d277b285d79a1ac861783f&units=metric";  // 서울 날씨 API 요청을 위한 URL 
             // 해당 URL로 GET 요청을 보내고, 받은 응답을 JSON 형식으로 변환
             fetch(url).then(res => res.json()).then(data => {
                 console.log(data);
-                let temp = data['temp']; // 응답에서 온도 정보 추출
-                let weather = data['icon']
-                let weatherId = weather.match(/\d+/)[0]; // 날씨 id 추출
+                let temp = data.main.temp; // 응답에서 온도 정보 추출
+                console.log(temp);
+                let weatherId = data.weather[0].icon // 날씨 id 추출
                 console.log(weatherId);
+                let weather = `http://openweathermap.org/img/w/${weatherId}.png`;
                 $('#temperature').text(temp);  // 온도 정보를 해당 요소에 텍스트로 추가
                 $('#weather').attr('src', weather); // 날씨 아이콘 이미지 URL을 이미지 요소의 src 속성에 설정
                 let videos = []; // 비디오id를 넣을 배열
                 let reasons = []; // 음악 추천 이유를 넣을 배열
 
-                if (weatherId == "01") {   // 맑은 날일때
+                if (weatherId.includes("01")) {   // 맑은 날일때
                     videos = ["maPxanIs8uo", "vbMJf5NIxtU", "ATK7gAaZTOM", "wFJxzoljf10", "3kGAlp_PNUg", "xRbPAVnqtcs", "BS7tz2rAOSA", "e6-TxMisjh8", "2-P-NIiLiQc", "DoNStA8oMJA", "fuz2F8GGQKI", "D9AHtnxp1dU", "-aqxQalWCfE", "gH1rVdXUlpo", "Fbj4Dh-QkpA"];
                     reasons = [
                         "맑은 날에는 경쾌한 비트의 노래로 마음을 들뜨게 만들어보세요! 💃",
@@ -229,7 +230,7 @@
                         "오늘의 에피소드를 smell에서 공유해 보세요! 💨",
                         "맑은 날씨에는 상쾌한 노래로 몸과 마음을 활기차게 만들어보세요. 💃"
                     ];
-                } else if (weatherId == "02" || weatherId == "03" || weatherId == "04") { // 구름 낀 날일때
+                } else if (weatherId.includes("02") || weatherId.includes("03") || weatherId.includes("04")) { // 구름 낀 날일때
                     videos = ["4nHJ9vIHdO0", "1WS9Nb1m6dk", "XqgmayuleBs", "0ezXHhUK5Zg", "OWL1RNX7p90", "9qk03hQo5w4", "SlKYLHAMLr0", "y1L0B5c3Ed8", "UvOISFON4M4", "LlWO7oSji2I", "9RvZ1jyjwFA", "kvHVSt7xEZk", "8BeyN4RLcLY", "5y5eiA1CwC0", "n_AqI27bSq8"];
                     reasons = [
                         "제목은 맑은데 노래는 흐립니다 ☁️",
@@ -248,7 +249,7 @@
                         "우울할 때 들으면 더 우울해지는 노래🙈",
                         "공부는 잠시 타임하고 기재기 펴보기!!🙆🏻‍♂️"
                     ]
-                } else if (weatherId == "09" || weatherId == "10" || weatherId == "11") { // 비 올때
+                } else if (weatherId.includes("09") || weatherId.includes("10") || weatherId.includes("11")) { // 비 올때
                     videos = ["nI8halon2HQ", "4gXmClk8rKI", "-HBgaGxc4Yc", "wuxmZ8lu79s", "3_-wYvhnfIE", "Jr3whj8mRAo", "ha89K7jKbrk", "tZYruZulvk0", "yd8_KD4rZio", "bbqr6NkJ88A", "Q0sGc0WUago", "0CS8qFgFHxU", "eN5mG_yMDiM", "HDxlD46V0iI", "TV-U45a4Auk"];
                     reasons = [
                         "비도 오는데 눈과 귀가 즐거운 노래 들으시고 기분 전환하시고 공부하러 가봐요 🔥",
@@ -267,7 +268,7 @@
                         "비오는 날 이 노래 틀고 눈 감고 있으면 나도 지금만큼은 셀럽 😎",
                         "감미로운 목소리 듣고 가시죠!"
                     ];
-                } else if (weather == "13") { // 눈 올때
+                } else if (weatherId.includes("13")) { // 눈 올때
                     videos = ["mHe3amVvtVo", "BBmKnbPRzbM", "-aAkMkVFwAoo", "J_QGZspO4gg", "n8iOhuv05As", "yUsDtLR6Ixg", "qT6qXcbdMU0", "R9VDPMk5ls0", "nq0BYGyH2Do", "AnuhhDqglxQ", "W0cs6ciCt_k", "OM_QECPyIUg", "XhNQ-kTXD8A", "HlI01mB3Nx8", "dzxkM-dCX-k"];
                     reasons = [
                         "눈이 내려요 ! 잠시 창 밖을 보는 건 어떨까요? ❄️",
