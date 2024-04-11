@@ -1,5 +1,5 @@
 
-# 🐽 smell (study + melody)
+# 🦨 smell (study + melody)
 smell 은 날씨에 따른 음악 추천과 회원가입/로그인, 시간 측정(공부 및 휴식), 개인랭킹 제공하는 스터디 플랫폼입니다.<br/>
 <br>
 ![image](https://github.com/LeeNaYoung240/smell_mini-project/assets/107848521/f7af015c-5145-47d9-a132-6708e213ff18)
