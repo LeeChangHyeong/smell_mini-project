@@ -175,7 +175,7 @@
 
 
         .timer-text {
-            text-align: center;      
+            text-align: center;
             color: #EB4646;
             border-radius: 50px;
             width: 280px;
@@ -407,6 +407,41 @@
             });
         });
 
+        // 자정일 때 시간을 리셋하는 함수
+        function resetTimeAtMidnight() {
+            // 현재 시간 가져오기
+            const now = new Date();
+            // 현재 시간의 복사본을 만들어 자정으로 설정
+            const midnight = new Date(now);
+            midnight.setHours(0, 0, 0, 0);
+
+            // 자정일 때 시간 리셋
+            if (now.getTime() >= midnight.getTime()) {
+                // 모든 사용자의 시간을 리셋
+                const usersCollectionRef = collection(db, "users");
+                getDocs(usersCollectionRef)
+                    .then((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            const userDocRef = doc.ref; // 문서에 대한 참조 가져오기
+                            updateDoc(userDocRef, {
+                                time: "00:00:00" // 시간을 00:00:00으로 업데이트
+                            }).then(() => {
+                                console.log("시간이 자정에 리셋되었습니다.");
+                            }).catch((error) => {
+                                console.error("시간 리셋 에러:", error);
+                            });
+                        });
+                    })
+                    .catch((error) => {
+                        console.error("모든 사용자의 정보 가져오기 에러:", error);
+                    });
+            }
+        }
+
+        // 1분마다 현재 시간을 확인하여 자정이면 시간을 리셋
+        setInterval(resetTimeAtMidnight, 60000); // 1분(60초)마다 실행되도록 설정
+
+
         // 사용자 정보 가져오기
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -519,7 +554,8 @@
     <!--상단에 위치하는 -->
     <div class="top">
         <div class="logo">
-            <img src="https://github.com/LeeNaYoung240/smell_mini-project/assets/71262367/768387b6-55e9-4565-a82c-085d55cda927" art="스컹크이미지" class="logo-img">
+            <img src="https://github.com/LeeNaYoung240/smell_mini-project/assets/71262367/768387b6-55e9-4565-a82c-085d55cda927"
+                art="스컹크이미지" class="logo-img">
             <p>오늘도 화이팅!</p>
         </div>
         <div class="weather">
