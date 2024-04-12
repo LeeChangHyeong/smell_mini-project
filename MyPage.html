@@ -413,7 +413,7 @@
             const now = new Date();
             // 현재 시간의 복사본을 만들어 자정으로 설정
             const midnight = new Date(now);
-            midnight.setHours(0, 0, 0, 0);
+            midnight.setHours(24, 0, 0, 0);
 
             // 자정일 때 시간 리셋
             if (now.getTime() >= midnight.getTime()) {
